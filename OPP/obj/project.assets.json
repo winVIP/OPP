@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\vyten\\Desktop\\OPP\\OPP\\OPP.csproj",
+      "projectUniqueName": "C:\\Users\\vyten\\Desktop\\OPP-master\\OPP\\OPP.csproj",
       "projectName": "OPP",
-      "projectPath": "C:\\Users\\vyten\\Desktop\\OPP\\OPP\\OPP.csproj",
+      "projectPath": "C:\\Users\\vyten\\Desktop\\OPP-master\\OPP\\OPP.csproj",
       "packagesPath": "C:\\Users\\vyten\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\vyten\\Desktop\\OPP\\OPP\\obj\\",
+      "outputPath": "C:\\Users\\vyten\\Desktop\\OPP-master\\OPP\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\vyten\\AppData\\Roaming\\NuGet\\NuGet.Config",

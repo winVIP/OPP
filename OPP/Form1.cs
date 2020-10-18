@@ -10,6 +10,7 @@ using System.Windows.Forms;
 
 using System.Drawing.Drawing2D;
 using System.Numerics;
+using System.Threading;
 
 namespace OPP
 {
@@ -25,6 +26,9 @@ namespace OPP
             InitializeComponent();
             pictureBox1 = drawPlayer();
             timer1.Enabled = true;
+            Size mapSize = new Size(5700, 3000);
+            Point nullPoint = new Point(0, 0);
+            //this.Bounds = new Rectangle(nullPoint, mapSize);
         }
 
         public PictureBox drawPlayer()
@@ -81,21 +85,33 @@ namespace OPP
         private void timer1_Tick(object sender, EventArgs e)
         {
             int speed = 10;
-            if (left == true)
+            if (left == true && pictureBox1.Location.X > 1)
             {
-                pictureBox1.Location = new Point(pictureBox1.Location.X - speed, pictureBox1.Location.Y);
+                for(int i = 0; i < speed; i++)
+                {
+                    pictureBox1.Location = new Point(pictureBox1.Location.X - 1, pictureBox1.Location.Y);
+                }
             }
-            if (right == true)
+            if (right == true && pictureBox1.Location.X < 1899)
             {
-                pictureBox1.Location = new Point(pictureBox1.Location.X + speed, pictureBox1.Location.Y);
+                for (int i = 0; i < speed; i++)
+                {
+                    pictureBox1.Location = new Point(pictureBox1.Location.X + 1, pictureBox1.Location.Y);
+                }
             }
-            if (up == true)
+            if (up == true && pictureBox1.Location.Y > 1)
             {
-                pictureBox1.Location = new Point(pictureBox1.Location.X, pictureBox1.Location.Y - speed);
+                for (int i = 0; i < speed; i++)
+                {
+                    pictureBox1.Location = new Point(pictureBox1.Location.X, pictureBox1.Location.Y - 1);
+                }
             }
-            if (down == true)
+            if (down == true && pictureBox1.Location.Y < 999)
             {
-                pictureBox1.Location = new Point(pictureBox1.Location.X, pictureBox1.Location.Y + speed);
+                for (int i = 0; i < speed; i++)
+                {
+                    pictureBox1.Location = new Point(pictureBox1.Location.X, pictureBox1.Location.Y + 1);
+                }
             }
         }
 
