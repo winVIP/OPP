@@ -5,7 +5,7 @@ using System.Text;
 
 namespace OPP
 {
-    class Unit
+    public class Unit
     {
         Point position;
         // 0 - player, 1 - food
@@ -13,7 +13,7 @@ namespace OPP
         Color playerColor;
         Size playerSize;
 
-        public Unit(int id, Point position, Color color, Size size)
+        public Unit(Point position, Color color, Size size)
         {
             this.position = position;
             this.type = 0;

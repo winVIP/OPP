@@ -5,7 +5,7 @@ using System.Text;
 
 namespace OPP
 {
-    class Map
+    public class Map
     {
         List<Unit> players;
 
