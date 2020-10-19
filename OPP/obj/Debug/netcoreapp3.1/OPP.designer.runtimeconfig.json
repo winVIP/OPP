@@ -6,7 +6,7 @@
       "version": "3.1.0"
     },
     "additionalProbingPaths": [
-      "C:\\Users\\vyten\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\rksur\\.dotnet\\store\\|arch|\\|tfm|",
       "C:\\Users\\vyten\\.nuget\\packages"
     ],
     "configProperties": {
