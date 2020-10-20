@@ -23,16 +23,17 @@ namespace OPP
         List<PictureBox> pbFood = new List<PictureBox>();
         Map map = new Map();
 
-        PictureBox pictureBox1;
+        PictureBox playerPictureBox;
         bool up = false;
         bool down = false;
         bool left = false;
         bool right = false;
+
+        Color playerColor = Color.Green;
         public Form1()
         {
             InitializeComponent();
-            pictureBox1 = drawPlayer();
-            pictureBox1.Dispose();
+            playerPictureBox = drawPlayer();
             timer1.Enabled = true;
             timer2.Enabled = true;
             Size mapSize = new Size(5700, 3000);
@@ -50,7 +51,7 @@ namespace OPP
             Region region = new Region(path);
 
             PictureBox pictureBox = new PictureBox();
-            pictureBox.BackColor = Color.Black;
+            pictureBox.BackColor = playerColor;
             pictureBox.Region = region;
             pictureBox.Size = new Size(20, 20);
             
@@ -100,6 +101,8 @@ namespace OPP
         {
             string responseString = client.GetStringAsync("https://agar.azurewebsites.net/api/game").Result;
 
+            map.ClearFood();
+
             List<UnitData> unitData = JsonConvert.DeserializeObject<List<UnitData>>(responseString);
 
             foreach (var item in unitData)
@@ -120,32 +123,32 @@ namespace OPP
         {
 
             int speed = 10;
-            if (left == true && pictureBox1.Location.X > 1)
+            if (left == true && playerPictureBox.Location.X > 1)
             {
                 for(int i = 0; i < speed; i++)
                 {
-                    pictureBox1.Location = new Point(pictureBox1.Location.X - 1, pictureBox1.Location.Y);
+                    playerPictureBox.Location = new Point(playerPictureBox.Location.X - 1, playerPictureBox.Location.Y);
                 }
             }
-            if (right == true && pictureBox1.Location.X < 1899)
+            if (right == true && playerPictureBox.Location.X < 1899)
             {
                 for (int i = 0; i < speed; i++)
                 {
-                    pictureBox1.Location = new Point(pictureBox1.Location.X + 1, pictureBox1.Location.Y);
+                    playerPictureBox.Location = new Point(playerPictureBox.Location.X + 1, playerPictureBox.Location.Y);
                 }
             }
-            if (up == true && pictureBox1.Location.Y > 1)
+            if (up == true && playerPictureBox.Location.Y > 1)
             {
                 for (int i = 0; i < speed; i++)
                 {
-                    pictureBox1.Location = new Point(pictureBox1.Location.X, pictureBox1.Location.Y - 1);
+                    playerPictureBox.Location = new Point(playerPictureBox.Location.X, playerPictureBox.Location.Y - 1);
                 }
             }
-            if (down == true && pictureBox1.Location.Y < 999)
+            if (down == true && playerPictureBox.Location.Y < 999)
             {
                 for (int i = 0; i < speed; i++)
                 {
-                    pictureBox1.Location = new Point(pictureBox1.Location.X, pictureBox1.Location.Y + 1);
+                    playerPictureBox.Location = new Point(playerPictureBox.Location.X, playerPictureBox.Location.Y + 1);
                 }
             }
         }
@@ -160,11 +163,21 @@ namespace OPP
 
         private void FormMap()
         {
+            //Clearing stuff from form before adding again
+
+            foreach(Control item in Controls)
+            {
+                if(item.BackColor != Color.Green)
+                {
+                    Controls.Remove(item);
+                }
+            }
+
             foreach(Unit unit in map.getFood())
             {
                 // Make a GraphicsPath and add the circle.
                 GraphicsPath path = new GraphicsPath();
-                path.AddEllipse(0, 0, 20, 20);
+                path.AddEllipse(0, 0, 10, 10);
 
                 // Convert the GraphicsPath into a Region.
                 Region region = new Region(path);
