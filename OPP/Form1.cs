@@ -155,7 +155,6 @@ namespace OPP
 
         private void timer2_Tick(object sender, EventArgs e)
         {
-
             Debug.WriteLine(DateTime.Now.ToString());
             getMapAsync();
             FormMap();
@@ -211,6 +210,16 @@ namespace OPP
             }
         }
 
-        
+        private void POSTplayerPosition_Tick(object sender, EventArgs e)
+        {
+
+            UnitData unitData = new UnitData();
+            unitData.playerColor = playerPictureBox.BackColor;
+            unitData.position = playerPictureBox.Location;
+            unitData.playerSize = playerPictureBox.Size;
+            unitData.type = 1;
+            var json = JsonConvert.SerializeObject(unitData);
+            client.PostAsync("https://localhost:44320/api/game", new StringContent("Kazkas"));
+        }
     }
 }
