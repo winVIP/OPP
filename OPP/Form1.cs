@@ -155,7 +155,6 @@ namespace OPP
 
         private void timer2_Tick(object sender, EventArgs e)
         {
-
             Debug.WriteLine(DateTime.Now.ToString());
             getMapAsync();
             FormMap();
@@ -177,7 +176,7 @@ namespace OPP
             {
                 // Make a GraphicsPath and add the circle.
                 GraphicsPath path = new GraphicsPath();
-                path.AddEllipse(0, 0, 20, 20);
+                path.AddEllipse(0, 0, 10, 10);
 
                 // Convert the GraphicsPath into a Region.
                 Region region = new Region(path);
@@ -211,6 +210,16 @@ namespace OPP
             }
         }
 
-        
+        private void POSTplayerPosition_Tick(object sender, EventArgs e)
+        {
+
+            UnitData unitData = new UnitData();
+            unitData.playerColor = playerPictureBox.BackColor;
+            unitData.position = playerPictureBox.Location;
+            unitData.playerSize = playerPictureBox.Size;
+            unitData.type = 1;
+            var json = JsonConvert.SerializeObject(unitData);
+            client.PostAsync("https://localhost:44320/api/game", new StringContent("Kazkas"));
+        }
     }
 }
