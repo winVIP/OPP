@@ -20,7 +20,7 @@ namespace OPP
 {
     public partial class Form1 : Form
     {
-        List<PictureBox> pbFood = new List<PictureBox>();
+        private static readonly HttpClient client = new HttpClient();
         Map map = new Map();
 
         PictureBox playerPictureBox;
@@ -93,7 +93,6 @@ namespace OPP
             }
         }
 
-        private static readonly HttpClient client = new HttpClient();
 
         
 
@@ -116,8 +115,29 @@ namespace OPP
                     map.addFood(new Unit(item.position));
                 }
             }
+
+            CheckCollisions();
+
         }
-            
+
+        private void CheckCollisions()
+        {
+            Unit me = map.getPlayers().Find(x => x.getColor() == playerColor);
+            List<Unit> allExceptMe = map.GetAllUnitsExceptMe(playerColor);
+
+            foreach(Unit unit in allExceptMe)
+            {
+                if(me.getPosition() == unit.getPosition() && unit.getType() == 1)
+                {
+                    //TODO send a msg to server that I ate something
+                    //Need to convert to json string and then send. At server deserialize
+                    var content = new FormUrlEncodedContent(me, unit);
+
+                    var response = await client.PostAsync("http://www.example.com/recepticle.aspx", content);
+                }
+            }
+        }
+
 
         private void timer1_Tick(object sender, EventArgs e)
         {
@@ -164,7 +184,6 @@ namespace OPP
         private void FormMap()
         {
             //Clearing stuff from form before adding again
-
             foreach(Control item in Controls)
             {
                 if(item.BackColor != Color.Green)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 
@@ -76,7 +77,23 @@ namespace OPP
 
         public void ClearFood()
         {
+            //TODO clear players also
             food.Clear();
+        }
+
+        public List<Unit> GetAllUnitsExceptMe(Color color)
+        {
+            List<Unit> all = new List<Unit>();
+            all.Concat(food);
+            foreach(Unit player in players)
+            {
+                if(player.getColor() != color)
+                {
+                    all.Add(player);
+                }
+            }
+
+            return all;
         }
     }
 }
