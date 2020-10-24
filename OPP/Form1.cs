@@ -36,6 +36,7 @@ namespace OPP
             playerPictureBox = drawPlayer();
             timer1.Enabled = true;
             timer2.Enabled = true;
+            POSTplayerPosition.Enabled = true;
             Size mapSize = new Size(5700, 3000);
             Point nullPoint = new Point(0, 0);
             //this.Bounds = new Rectangle(nullPoint, mapSize);
@@ -93,7 +94,7 @@ namespace OPP
             }
         }
 
-        private static readonly HttpClient client = new HttpClient();
+        private static HttpClient client = new HttpClient();
 
         
 
@@ -212,14 +213,43 @@ namespace OPP
 
         private void POSTplayerPosition_Tick(object sender, EventArgs e)
         {
-
             UnitData unitData = new UnitData();
             unitData.playerColor = playerPictureBox.BackColor;
             unitData.position = playerPictureBox.Location;
             unitData.playerSize = playerPictureBox.Size;
-            unitData.type = 1;
-            var json = JsonConvert.SerializeObject(unitData);
-            client.PostAsync("https://localhost:44320/api/game", new StringContent("Kazkas"));
+            unitData.type = 0;
+            
+            //Siti kazkodel neveikia
+            //PostBasicAsync(unitData, new CancellationToken());
+            //PostBasicAsync("Tsg stringas", new CancellationToken());
+
+            //PostBasicAsync("{ \"position\":\"90, 40\",\"type\":0,\"playerColor\":\"Green\",\"playerSize\":\"20, 20\"}", new CancellationToken());
+
+            string forSending = string.Format("{{ \"position\":\"{0}, {1}\",\"type\":{2},\"playerColor\":\"{3}\",\"playerSize\":\"{4}, {5}\"}}",
+                unitData.position.X, unitData.position.Y.ToString(), unitData.type.ToString(), unitData.playerColor.Name, unitData.playerSize.Width.ToString(), unitData.playerSize.Height.ToString());
+            PostBasicAsync(forSending, new CancellationToken());
+        }
+
+        private static async Task PostBasicAsync(object content, CancellationToken cancellationToken)
+        {
+            using (var client = new HttpClient())
+            using (var request = new HttpRequestMessage(HttpMethod.Post, "https://localhost:44320/api/game"))
+            {
+                var json = JsonConvert.SerializeObject(content);
+                Debug.WriteLine(json);
+                using (var stringContent = new StringContent(json, Encoding.UTF8, "application/json"))
+                {
+                    Debug.WriteLine("StringContent: " + stringContent.ReadAsStringAsync().Result);
+                    request.Content = stringContent;
+
+                    using (var response = await client
+                        .SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken)
+                        .ConfigureAwait(false))
+                    {
+                        response.EnsureSuccessStatusCode();
+                    }
+                }
+            }
         }
     }
 }

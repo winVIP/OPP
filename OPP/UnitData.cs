@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace OPP
 {
+    [Serializable]
     public class UnitData
     {
         public Point position { get; set; }
