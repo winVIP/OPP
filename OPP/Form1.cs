@@ -22,6 +22,7 @@ namespace OPP
     {
         List<PictureBox> pbFood = new List<PictureBox>();
         Map map = new Map();
+        List<Color> allColors = new List<Color>();
 
         PictureBox playerPictureBox;
         bool up = false;
@@ -29,10 +30,26 @@ namespace OPP
         bool left = false;
         bool right = false;
 
-        Color playerColor = Color.Green;
+        Color playerColor;
         public Form1()
         {
             InitializeComponent();
+
+            allColors.Add(Color.Red);
+            allColors.Add(Color.Blue);
+            allColors.Add(Color.Yellow);
+            allColors.Add(Color.Green);
+            allColors.Add(Color.Pink);
+            allColors.Add(Color.Brown);
+            allColors.Add(Color.Orange);
+            allColors.Add(Color.Violet);
+
+            Debug.WriteLine("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA: " + playerColor);
+            Task initialMapGet;
+            initialMapGet = getMapAsyncAwait();
+            initialMapGet.Wait();
+            Debug.WriteLine("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB: " + playerColor);
+
             playerPictureBox = drawPlayer();
             timer1.Enabled = true;
             timer2.Enabled = true;
@@ -40,6 +57,7 @@ namespace OPP
             Size mapSize = new Size(5700, 3000);
             Point nullPoint = new Point(0, 0);
             //this.Bounds = new Rectangle(nullPoint, mapSize);
+
         }
 
         public PictureBox drawPlayer()
@@ -100,9 +118,10 @@ namespace OPP
 
         public void getMapAsync()
         {
-            string responseString = client.GetStringAsync("https://agar.azurewebsites.net/api/game").Result;
+            string responseString = client.GetStringAsync("https://localhost:44320/api/game").Result;
 
-            map.ClearFood();
+
+            map.ClearFoodAndPlayers();
 
             List<UnitData> unitData = JsonConvert.DeserializeObject<List<UnitData>>(responseString);
 
@@ -117,6 +136,52 @@ namespace OPP
                     map.addFood(new Unit(item.position));
                 }
             }
+        }
+
+        public async Task getMapAsyncAwait()
+        {
+            string responseString = client.GetStringAsync("https://localhost:44320/api/game").Result;
+
+
+            map.ClearFoodAndPlayers();
+
+            List<UnitData> unitData = JsonConvert.DeserializeObject<List<UnitData>>(responseString);
+
+            foreach (var item in unitData)
+            {
+                if (item.type == 0)
+                {
+                    map.addPlayer(new Unit(item.position, item.playerColor, item.playerSize));
+                }
+                else
+                {
+                    map.addFood(new Unit(item.position));
+                }
+            }
+
+            ChooseColor();
+        }
+
+        Color ChooseColor()
+        {
+            Random rnd = new Random();
+            List<Color> takenColors = new List<Color>();
+            Color color = Color.Aquamarine;
+
+            foreach(Unit p in map.getPlayers())
+            {
+                takenColors.Add(p.getColor());
+            }
+
+            while(playerColor == Color.Empty)
+            {
+                int index = rnd.Next(0, allColors.Count-1);
+                if (!takenColors.Contains(allColors[index]) || takenColors.Count == 0)
+                {
+                    playerColor = allColors[index];
+                }
+            }
+            return color;
         }
             
 
@@ -167,7 +232,7 @@ namespace OPP
 
             foreach(Control item in Controls)
             {
-                if(item.BackColor != Color.Green)
+                if(item.BackColor != playerColor)
                 {
                     Controls.Remove(item);
                 }
@@ -188,6 +253,23 @@ namespace OPP
                 pictureBox.Size = new Size(10, 10);
                 pictureBox.Location = unit.getPosition();
                 this.Controls.Add(pictureBox);
+            }
+
+            foreach(Unit unit in map.getPlayers())
+            {
+                if (unit.getColor() == playerColor) continue;
+                GraphicsPath path = new GraphicsPath();
+                path.AddEllipse(0, 0, unit.getSize().Height, unit.getSize().Width);
+
+                // Convert the GraphicsPath into a Region.
+                Region region = new Region(path);
+
+                PictureBox pictureBoxP = new PictureBox();
+                pictureBoxP.BackColor = unit.getColor();
+                pictureBoxP.Region = region;
+                pictureBoxP.Size = new Size(unit.getSize().Width, unit.getSize().Height);
+                pictureBoxP.Location = unit.getPosition();
+                this.Controls.Add(pictureBoxP);
             }
         }
 
@@ -218,12 +300,6 @@ namespace OPP
             unitData.position = playerPictureBox.Location;
             unitData.playerSize = playerPictureBox.Size;
             unitData.type = 0;
-            
-            //Siti kazkodel neveikia
-            //PostBasicAsync(unitData, new CancellationToken());
-            //PostBasicAsync("Tsg stringas", new CancellationToken());
-
-            //PostBasicAsync("{ \"position\":\"90, 40\",\"type\":0,\"playerColor\":\"Green\",\"playerSize\":\"20, 20\"}", new CancellationToken());
 
             string forSending = string.Format("{{ \"position\":\"{0}, {1}\",\"type\":{2},\"playerColor\":\"{3}\",\"playerSize\":\"{4}, {5}\"}}",
                 unitData.position.X, unitData.position.Y.ToString(), unitData.type.ToString(), unitData.playerColor.Name, unitData.playerSize.Width.ToString(), unitData.playerSize.Height.ToString());

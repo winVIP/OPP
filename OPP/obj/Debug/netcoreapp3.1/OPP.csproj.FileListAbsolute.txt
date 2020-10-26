@@ -16,3 +16,21 @@ C:\Users\vyten\Desktop\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.csproj.CopyComplete
 C:\Users\vyten\Desktop\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.dll
 C:\Users\vyten\Desktop\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.pdb
 C:\Users\vyten\Desktop\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.genruntimeconfig.cache
+E:\Laborai\7_semestras\Objektinis geimas\OPP\OPP\bin\Debug\netcoreapp3.1\OPP.exe
+E:\Laborai\7_semestras\Objektinis geimas\OPP\OPP\bin\Debug\netcoreapp3.1\OPP.deps.json
+E:\Laborai\7_semestras\Objektinis geimas\OPP\OPP\bin\Debug\netcoreapp3.1\OPP.runtimeconfig.json
+E:\Laborai\7_semestras\Objektinis geimas\OPP\OPP\bin\Debug\netcoreapp3.1\OPP.runtimeconfig.dev.json
+E:\Laborai\7_semestras\Objektinis geimas\OPP\OPP\bin\Debug\netcoreapp3.1\OPP.dll
+E:\Laborai\7_semestras\Objektinis geimas\OPP\OPP\bin\Debug\netcoreapp3.1\OPP.pdb
+E:\Laborai\7_semestras\Objektinis geimas\OPP\OPP\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
+E:\Laborai\7_semestras\Objektinis geimas\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.csprojAssemblyReference.cache
+E:\Laborai\7_semestras\Objektinis geimas\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.Form1.resources
+E:\Laborai\7_semestras\Objektinis geimas\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.Login.resources
+E:\Laborai\7_semestras\Objektinis geimas\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.csproj.GenerateResource.cache
+E:\Laborai\7_semestras\Objektinis geimas\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.AssemblyInfoInputs.cache
+E:\Laborai\7_semestras\Objektinis geimas\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.AssemblyInfo.cs
+E:\Laborai\7_semestras\Objektinis geimas\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.csproj.CoreCompileInputs.cache
+E:\Laborai\7_semestras\Objektinis geimas\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.csproj.CopyComplete
+E:\Laborai\7_semestras\Objektinis geimas\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.dll
+E:\Laborai\7_semestras\Objektinis geimas\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.pdb
+E:\Laborai\7_semestras\Objektinis geimas\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.genruntimeconfig.cache

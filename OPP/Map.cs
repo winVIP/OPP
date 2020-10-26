@@ -74,9 +74,10 @@ namespace OPP
             players.RemoveAt(i);
         }
 
-        public void ClearFood()
+        public void ClearFoodAndPlayers()
         {
             food.Clear();
+            players.Clear();
         }
     }
 }
