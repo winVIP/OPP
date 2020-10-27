@@ -30,10 +30,12 @@ namespace OPP
         bool left = false;
         bool right = false;
 
-        Color playerColor;
+        Color playerColor = Color.White;
+        int index;
         public Form1()
         {
             InitializeComponent();
+            FirstPost();
 
             allColors.Add(Color.Red);
             allColors.Add(Color.Blue);
@@ -48,7 +50,6 @@ namespace OPP
             Task initialMapGet;
             initialMapGet = getMapAsyncAwait();
             initialMapGet.Wait();
-            Debug.WriteLine("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB: " + playerColor);
 
             playerPictureBox = drawPlayer();
             timer1.Enabled = true;
@@ -120,7 +121,6 @@ namespace OPP
         {
             string responseString = client.GetStringAsync("https://localhost:44320/api/game").Result;
 
-
             map.ClearFoodAndPlayers();
 
             List<UnitData> unitData = JsonConvert.DeserializeObject<List<UnitData>>(responseString);
@@ -136,12 +136,23 @@ namespace OPP
                     map.addFood(new Unit(item.position));
                 }
             }
+
+            playerPictureBox.BackColor = map.getPlayers()[index].getColor();
+            Debug.WriteLine("Colonel: " + map.getPlayers()[index].getColor());
+
+            GraphicsPath path = new GraphicsPath();
+            path.AddEllipse(0, 0, map.getPlayers()[index].getSize().Width, map.getPlayers()[index].getSize().Height);
+
+            Region region = new Region(path);
+            playerPictureBox.Region = region;
+
+            playerPictureBox.Size = new Size(map.getPlayers()[index].getSize().Width, map.getPlayers()[index].getSize().Height);
+
         }
 
         public async Task getMapAsyncAwait()
         {
             string responseString = client.GetStringAsync("https://localhost:44320/api/game").Result;
-
 
             map.ClearFoodAndPlayers();
 
@@ -151,7 +162,14 @@ namespace OPP
             {
                 if (item.type == 0)
                 {
-                    map.addPlayer(new Unit(item.position, item.playerColor, item.playerSize));
+                    Unit player = new Unit(item.position, item.playerColor, item.playerSize);
+                    if(player.getPosition().X == -9999 && player.getPosition().Y == -9999)
+                    {
+                        playerColor = player.getColor();
+                        player.setPosition(new Point(1, 1));
+                        Debug.WriteLine("First get playerColor: " + player.getColor());
+                    }
+                    map.addPlayer(player);
                 }
                 else
                 {
@@ -159,31 +177,9 @@ namespace OPP
                 }
             }
 
-            ChooseColor();
-        }
+            index = allColors.IndexOf(playerColor);
 
-        Color ChooseColor()
-        {
-            Random rnd = new Random();
-            List<Color> takenColors = new List<Color>();
-            Color color = Color.Aquamarine;
-
-            foreach(Unit p in map.getPlayers())
-            {
-                takenColors.Add(p.getColor());
-            }
-
-            while(playerColor == Color.Empty)
-            {
-                int index = rnd.Next(0, allColors.Count-1);
-                if (!takenColors.Contains(allColors[index]) || takenColors.Count == 0)
-                {
-                    playerColor = allColors[index];
-                }
-            }
-            return color;
-        }
-            
+        }           
 
         private void timer1_Tick(object sender, EventArgs e)
         {
@@ -221,7 +217,7 @@ namespace OPP
 
         private void timer2_Tick(object sender, EventArgs e)
         {
-            Debug.WriteLine(DateTime.Now.ToString());
+
             getMapAsync();
             FormMap();
         }
@@ -304,6 +300,21 @@ namespace OPP
             string forSending = string.Format("{{ \"position\":\"{0}, {1}\",\"type\":{2},\"playerColor\":\"{3}\",\"playerSize\":\"{4}, {5}\"}}",
                 unitData.position.X, unitData.position.Y.ToString(), unitData.type.ToString(), unitData.playerColor.Name, unitData.playerSize.Width.ToString(), unitData.playerSize.Height.ToString());
             PostBasicAsync(forSending, new CancellationToken());
+
+
+        }
+
+        void FirstPost()
+        {
+            UnitData unitData = new UnitData();
+            unitData.playerColor = Color.White;
+            unitData.position = new Point(-9999, -9999);
+            unitData.playerSize = new Size(20,20);
+            unitData.type = 0;
+
+            string forSending = string.Format("{{ \"position\":\"{0}, {1}\",\"type\":{2},\"playerColor\":\"{3}\",\"playerSize\":\"{4}, {5}\"}}",
+                unitData.position.X, unitData.position.Y.ToString(), unitData.type.ToString(), unitData.playerColor.Name, unitData.playerSize.Width.ToString(), unitData.playerSize.Height.ToString());
+            PostBasicAsync(forSending, new CancellationToken()).Wait();
         }
 
         private static async Task PostBasicAsync(object content, CancellationToken cancellationToken)
@@ -312,10 +323,8 @@ namespace OPP
             using (var request = new HttpRequestMessage(HttpMethod.Post, "https://localhost:44320/api/game"))
             {
                 var json = JsonConvert.SerializeObject(content);
-                Debug.WriteLine(json);
                 using (var stringContent = new StringContent(json, Encoding.UTF8, "application/json"))
                 {
-                    Debug.WriteLine("StringContent: " + stringContent.ReadAsStringAsync().Result);
                     request.Content = stringContent;
 
                     using (var response = await client
