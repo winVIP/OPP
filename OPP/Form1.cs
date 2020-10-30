@@ -300,8 +300,6 @@ namespace OPP
             string forSending = string.Format("{{ \"position\":\"{0}, {1}\",\"type\":{2},\"playerColor\":\"{3}\",\"playerSize\":\"{4}, {5}\"}}",
                 unitData.position.X, unitData.position.Y.ToString(), unitData.type.ToString(), unitData.playerColor.Name, unitData.playerSize.Width.ToString(), unitData.playerSize.Height.ToString());
             PostBasicAsync(forSending, new CancellationToken());
-
-
         }
 
         void FirstPost()
