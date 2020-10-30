@@ -15,16 +15,25 @@ using System.Net.Http;
 using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 using System.Diagnostics;
+using OPP.Interfaces;
+using OPP.Behaviors;
 
 namespace OPP
 {
     public partial class Form1 : Form
     {
+        Random random = new Random();
+
         List<PictureBox> pbFood = new List<PictureBox>();
         Map map = new Map();
         List<Color> allColors = new List<Color>();
 
         PictureBox playerPictureBox;
+        IWalkBehavior normalWalkBehavior = new NormalWalk();
+        IWalkBehavior confusedWalkBehavior = new ConfusedWalk();
+        IWalkBehavior confusedWalkBehavior2 = new ConfusedWalk2();
+        IWalkBehavior confusedWalkBehavior3 = new ConfusedWalk3();
+
         bool up = false;
         bool down = false;
         bool left = false;
@@ -32,6 +41,11 @@ namespace OPP
 
         Color playerColor = Color.White;
         int index;
+        int playerSpeed = 10;
+
+        //Should be false by default
+        bool isConfused = false;
+        bool confusionChecked = false;
         public Form1()
         {
             InitializeComponent();
@@ -129,16 +143,20 @@ namespace OPP
             {
                 if(item.type == 0)
                 {
+                    //if player is not confused he checks data from server server wether he is confused
+                    if(playerColor == item.playerColor && isConfused == false)
+                    {
+                        isConfused = item.confused;
+                    }
                     map.addPlayer(new Unit(item.position, item.playerColor, item.playerSize));
                 }
                 else
                 {
-                    map.addFood(new Unit(item.position));
+                    map.addFood(new Unit(item.position, item.type));
                 }
             }
 
             playerPictureBox.BackColor = map.getPlayers()[index].getColor();
-            Debug.WriteLine("Colonel: " + map.getPlayers()[index].getColor());
 
             GraphicsPath path = new GraphicsPath();
             path.AddEllipse(0, 0, map.getPlayers()[index].getSize().Width, map.getPlayers()[index].getSize().Height);
@@ -147,7 +165,6 @@ namespace OPP
             playerPictureBox.Region = region;
 
             playerPictureBox.Size = new Size(map.getPlayers()[index].getSize().Width, map.getPlayers()[index].getSize().Height);
-
         }
 
         public async Task getMapAsyncAwait()
@@ -167,13 +184,12 @@ namespace OPP
                     {
                         playerColor = player.getColor();
                         player.setPosition(new Point(1, 1));
-                        Debug.WriteLine("First get playerColor: " + player.getColor());
                     }
                     map.addPlayer(player);
                 }
                 else
                 {
-                    map.addFood(new Unit(item.position));
+                    map.addFood(new Unit(item.position, item.type));
                 }
             }
 
@@ -183,35 +199,33 @@ namespace OPP
 
         private void timer1_Tick(object sender, EventArgs e)
         {
+            if (isConfused)
+            {
+                switch (random.Next(0, 3))
+                {
+                    case 0:
+                        confusedWalkBehavior.Walk(playerSpeed, left, right, up, down, playerPictureBox);
+                        break;
+                    case 1:
+                        confusedWalkBehavior2.Walk(playerSpeed, left, right, up, down, playerPictureBox);
+                        break;
+                    case 2:
+                        confusedWalkBehavior3.Walk(playerSpeed, left, right, up, down, playerPictureBox);
+                        break;
+                    default:
+                        break;
 
-            int speed = 10;
-            if (left == true && playerPictureBox.Location.X > 1)
-            {
-                for(int i = 0; i < speed; i++)
+                }
+
+                if (!confusionChecked)
                 {
-                    playerPictureBox.Location = new Point(playerPictureBox.Location.X - 1, playerPictureBox.Location.Y);
+                    confusionChecked = true;
+                    Task.Delay(new TimeSpan(0, 0, 2)).ContinueWith(o => { isConfused = false; confusionChecked = false;});
                 }
             }
-            if (right == true && playerPictureBox.Location.X < 1899)
+            else
             {
-                for (int i = 0; i < speed; i++)
-                {
-                    playerPictureBox.Location = new Point(playerPictureBox.Location.X + 1, playerPictureBox.Location.Y);
-                }
-            }
-            if (up == true && playerPictureBox.Location.Y > 1)
-            {
-                for (int i = 0; i < speed; i++)
-                {
-                    playerPictureBox.Location = new Point(playerPictureBox.Location.X, playerPictureBox.Location.Y - 1);
-                }
-            }
-            if (down == true && playerPictureBox.Location.Y < 999)
-            {
-                for (int i = 0; i < speed; i++)
-                {
-                    playerPictureBox.Location = new Point(playerPictureBox.Location.X, playerPictureBox.Location.Y + 1);
-                }
+                normalWalkBehavior.Walk(playerSpeed, left, right, up, down, playerPictureBox);
             }
         }
 
@@ -236,6 +250,12 @@ namespace OPP
 
             foreach(Unit unit in map.getFood())
             {
+                Color color = Color.Black;
+
+                if(unit.getType() == 2)
+                {
+                    color = Color.Red;
+                }
                 // Make a GraphicsPath and add the circle.
                 GraphicsPath path = new GraphicsPath();
                 path.AddEllipse(0, 0, 10, 10);
@@ -244,7 +264,7 @@ namespace OPP
                 Region region = new Region(path);
 
                 PictureBox pictureBox = new PictureBox();
-                pictureBox.BackColor = Color.Black;
+                pictureBox.BackColor = color;
                 pictureBox.Region = region;
                 pictureBox.Size = new Size(10, 10);
                 pictureBox.Location = unit.getPosition();
@@ -288,7 +308,6 @@ namespace OPP
                 down = false;
             }
         }
-
         private void POSTplayerPosition_Tick(object sender, EventArgs e)
         {
             UnitData unitData = new UnitData();
@@ -297,8 +316,9 @@ namespace OPP
             unitData.playerSize = playerPictureBox.Size;
             unitData.type = 0;
 
-            string forSending = string.Format("{{ \"position\":\"{0}, {1}\",\"type\":{2},\"playerColor\":\"{3}\",\"playerSize\":\"{4}, {5}\"}}",
-                unitData.position.X, unitData.position.Y.ToString(), unitData.type.ToString(), unitData.playerColor.Name, unitData.playerSize.Width.ToString(), unitData.playerSize.Height.ToString());
+            string forSending = string.Format("{{ \"position\":\"{0}, {1}\",\"type\":{2},\"playerColor\":\"{3}\",\"playerSize\":\"{4}, {5}\",\"confused\":{6}}}",
+                unitData.position.X, unitData.position.Y.ToString(), unitData.type.ToString(), unitData.playerColor.Name,
+                unitData.playerSize.Width.ToString(), unitData.playerSize.Height.ToString(), isConfused.ToString().ToLower());
             PostBasicAsync(forSending, new CancellationToken());
         }
 

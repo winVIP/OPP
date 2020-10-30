@@ -8,7 +8,7 @@ namespace OPP
     public class Unit
     {
         Point position;
-        // 0 - player, 1 - food
+        // 0 - player, 1 - food, 2 - confusionFood
         int type;
         Color playerColor;
         Size playerSize;
@@ -21,10 +21,10 @@ namespace OPP
             this.playerSize = size;
         }
 
-        public Unit(Point position)
+        public Unit(Point position, int type)
         {
             this.position = position;
-            this.type = 1;
+            this.type = type;
         }
 
         public Point getPosition()

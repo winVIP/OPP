@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OPP.Behaviors;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -14,5 +15,7 @@ namespace OPP
         public int type { get; set; }
         public Color playerColor { get; set; }
         public Size playerSize { get; set; }
+
+        public bool confused { get; set; }
     }
 }
