@@ -138,6 +138,7 @@ namespace OPP
             {
                 if(item.type == 0)
                 {
+                    //if player is not confused he checks data from server server wether he is confused
                     if(playerColor == item.playerColor && isConfused == false)
                     {
                         isConfused = item.confused;
