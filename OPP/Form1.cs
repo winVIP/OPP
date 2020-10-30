@@ -22,6 +22,8 @@ namespace OPP
 {
     public partial class Form1 : Form
     {
+        Random random = new Random();
+
         List<PictureBox> pbFood = new List<PictureBox>();
         Map map = new Map();
         List<Color> allColors = new List<Color>();
@@ -29,6 +31,9 @@ namespace OPP
         PictureBox playerPictureBox;
         IWalkBehavior normalWalkBehavior = new NormalWalk();
         IWalkBehavior confusedWalkBehavior = new ConfusedWalk();
+        IWalkBehavior confusedWalkBehavior2 = new ConfusedWalk2();
+        IWalkBehavior confusedWalkBehavior3 = new ConfusedWalk3();
+
         bool up = false;
         bool down = false;
         bool left = false;
@@ -196,7 +201,22 @@ namespace OPP
         {
             if (isConfused)
             {
-                confusedWalkBehavior.Walk(playerSpeed, left, right, up, down, playerPictureBox);
+                switch (random.Next(0, 3))
+                {
+                    case 0:
+                        confusedWalkBehavior.Walk(playerSpeed, left, right, up, down, playerPictureBox);
+                        break;
+                    case 1:
+                        confusedWalkBehavior2.Walk(playerSpeed, left, right, up, down, playerPictureBox);
+                        break;
+                    case 2:
+                        confusedWalkBehavior3.Walk(playerSpeed, left, right, up, down, playerPictureBox);
+                        break;
+                    default:
+                        break;
+
+                }
+
                 if (!confusionChecked)
                 {
                     confusionChecked = true;
