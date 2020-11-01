@@ -17,5 +17,7 @@ namespace OPP
         public Size playerSize { get; set; }
 
         public bool confused { get; set; }
+
+        public bool foodListChanged { get; set; }
     }
 }

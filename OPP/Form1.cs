@@ -131,7 +131,7 @@ namespace OPP
 
         
 
-        public void getMapAsync()
+       /* public void getMapAsync()
         {
             string responseString = client.GetStringAsync("https://localhost:44320/api/game").Result;
 
@@ -165,13 +165,53 @@ namespace OPP
             playerPictureBox.Region = region;
 
             playerPictureBox.Size = new Size(map.getPlayers()[index].getSize().Width, map.getPlayers()[index].getSize().Height);
+        }*/
+
+        public void getPlayers()
+        {
+            string responseString = client.GetStringAsync("https://localhost:44320/api/game/players").Result;
+
+            map.ClearPlayers();
+
+            List<UnitData> playerUnitData = JsonConvert.DeserializeObject<List<UnitData>>(responseString);
+
+            foreach (var item in playerUnitData)
+            {
+                if (item.type == 0)
+                {
+                    //if player is not confused he checks data from server server wether he is confused
+                    if (playerColor == item.playerColor && isConfused == false)
+                    {
+                        isConfused = item.confused;
+                    }
+                    //Checking if we need to get food too
+                    if (item.foodListChanged)
+                    {
+                        Debug.WriteLine("Need to change food list nibba");
+                        updateFood();
+                    }
+                    map.addPlayer(new Unit(item.position, item.playerColor, item.playerSize));
+                }
+            }
+
+            //update player position in form (visually)
+            playerPictureBox.BackColor = map.getPlayers()[index].getColor();
+
+            GraphicsPath path = new GraphicsPath();
+            path.AddEllipse(0, 0, map.getPlayers()[index].getSize().Width, map.getPlayers()[index].getSize().Height);
+
+            Region region = new Region(path);
+            playerPictureBox.Region = region;
+
+            playerPictureBox.Size = new Size(map.getPlayers()[index].getSize().Width, map.getPlayers()[index].getSize().Height);
+
+            UpdatePlayers();
+
         }
 
         public async Task getMapAsyncAwait()
         {
             string responseString = client.GetStringAsync("https://localhost:44320/api/game").Result;
-
-            map.ClearFoodAndPlayers();
 
             List<UnitData> unitData = JsonConvert.DeserializeObject<List<UnitData>>(responseString);
 
@@ -193,9 +233,64 @@ namespace OPP
                 }
             }
 
+            updateFoodinForm();
             index = allColors.IndexOf(playerColor);
+        }
+        
+        void updateFood()
+        {
+            string responseString = client.GetStringAsync("https://localhost:44320/api/game/food").Result;
+            List<UnitData> unitData = JsonConvert.DeserializeObject<List<UnitData>>(responseString);
 
-        }           
+            Debug.WriteLine(responseString);
+
+            map.ClearFood();
+           
+            foreach (var item in unitData)
+            {
+                map.addFood(new Unit(item.position, item.type));
+            }
+
+            updateFoodinForm();
+        }
+
+        void updateFoodinForm()
+        {
+
+            foreach (Control item in Controls)
+            {
+
+                //Galima suteikti foodui text, pagal kurį išeitų atnaujint po vieną.
+                item.Text = "1";
+                if (!allColors.Contains(item.BackColor))
+                {
+                    Controls.Remove(item);
+                }
+            }
+
+            foreach (Unit unit in map.getFood())
+            {
+                Color color = Color.Black;
+
+                if(unit.getType() == 2)
+                {
+                    color = Color.MediumAquamarine;
+                }
+                // Make a GraphicsPath and add the circle.
+                GraphicsPath path = new GraphicsPath();
+                path.AddEllipse(0, 0, 10, 10);
+
+                // Convert the GraphicsPath into a Region.
+                Region region = new Region(path);
+
+                PictureBox pictureBox = new PictureBox();
+                pictureBox.BackColor = color;
+                pictureBox.Region = region;
+                pictureBox.Size = new Size(10, 10);
+                pictureBox.Location = unit.getPosition();
+                this.Controls.Add(pictureBox);
+            }
+        }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
@@ -231,49 +326,26 @@ namespace OPP
 
         private void timer2_Tick(object sender, EventArgs e)
         {
-
-            getMapAsync();
-            FormMap();
+            //Players are always moving therefore need to be updated constantly, unlike food.
+            getPlayers();
         }
 
-        private void FormMap()
+        private void UpdatePlayers()
         {
-            //Clearing stuff from form before adding again
+            //Clearing players from form before adding again
 
             foreach(Control item in Controls)
             {
-                if(item.BackColor != playerColor)
+                if(item.BackColor != playerColor && allColors.Contains(item.BackColor))
                 {
+                    Debug.WriteLine("I just removed an item of this " + item.BackColor + " color!");
                     Controls.Remove(item);
                 }
             }
 
-            foreach(Unit unit in map.getFood())
-            {
-                Color color = Color.Black;
-
-                if(unit.getType() == 2)
-                {
-                    color = Color.Red;
-                }
-                // Make a GraphicsPath and add the circle.
-                GraphicsPath path = new GraphicsPath();
-                path.AddEllipse(0, 0, 10, 10);
-
-                // Convert the GraphicsPath into a Region.
-                Region region = new Region(path);
-
-                PictureBox pictureBox = new PictureBox();
-                pictureBox.BackColor = color;
-                pictureBox.Region = region;
-                pictureBox.Size = new Size(10, 10);
-                pictureBox.Location = unit.getPosition();
-                this.Controls.Add(pictureBox);
-            }
-
             foreach(Unit unit in map.getPlayers())
             {
-                if (unit.getColor() == playerColor) continue;
+                if (unit.getColor() == playerColor || unit.getColor() == Color.White) continue;
                 GraphicsPath path = new GraphicsPath();
                 path.AddEllipse(0, 0, unit.getSize().Height, unit.getSize().Width);
 
