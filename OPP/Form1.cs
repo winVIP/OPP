@@ -392,8 +392,6 @@ namespace OPP
                 unitData.position.X, unitData.position.Y.ToString(), unitData.type.ToString(), unitData.playerColor.Name,
                 unitData.playerSize.Width.ToString(), unitData.playerSize.Height.ToString(), isConfused.ToString().ToLower());
             PostBasicAsync(forSending, new CancellationToken());
-
-
         }
 
         void FirstPost()
