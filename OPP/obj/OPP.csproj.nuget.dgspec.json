@@ -1,20 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\vyten\\Desktop\\OPP\\OPP\\OPP.csproj": {}
+    "C:\\Users\\Jonas\\Documents\\GitHub\\OPP\\OPP\\OPP.csproj": {}
   },
   "projects": {
-    "C:\\Users\\vyten\\Desktop\\OPP\\OPP\\OPP.csproj": {
+    "C:\\Users\\Jonas\\Documents\\GitHub\\OPP\\OPP\\OPP.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\vyten\\Desktop\\OPP\\OPP\\OPP.csproj",
+        "projectUniqueName": "C:\\Users\\Jonas\\Documents\\GitHub\\OPP\\OPP\\OPP.csproj",
         "projectName": "OPP",
-        "projectPath": "C:\\Users\\vyten\\Desktop\\OPP\\OPP\\OPP.csproj",
-        "packagesPath": "C:\\Users\\vyten\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\vyten\\Desktop\\OPP\\OPP\\obj\\",
+        "projectPath": "C:\\Users\\Jonas\\Documents\\GitHub\\OPP\\OPP\\OPP.csproj",
+        "packagesPath": "C:\\Users\\Jonas\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Jonas\\Documents\\GitHub\\OPP\\OPP\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\vyten\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Jonas\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -61,7 +64,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
         }
       }
     }

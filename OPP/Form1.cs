@@ -125,6 +125,14 @@ namespace OPP
             {
                 down = true;
             }
+            if(e.KeyCode == Keys.R)
+            {
+                sendSetRewind();
+            }
+            if(e.KeyCode == Keys.T)
+            {
+                sendTriggerRewind();
+            }
         }
 
         private static HttpClient client = new HttpClient();
@@ -169,7 +177,7 @@ namespace OPP
 
         public void getPlayers()
         {
-            string responseString = client.GetStringAsync("https://localhost:44320/api/game/players").Result;
+            string responseString = client.GetStringAsync("https://localhost:5001/api/game/players").Result; // Original 44320, jonas 5001
 
             map.ClearPlayers();
 
@@ -211,7 +219,7 @@ namespace OPP
 
         public async Task getMapAsyncAwait()
         {
-            string responseString = client.GetStringAsync("https://localhost:44320/api/game").Result;
+            string responseString = client.GetStringAsync("https://localhost:5001/api/game").Result; // Original 44320, jonas 5001
 
             List<UnitData> unitData = JsonConvert.DeserializeObject<List<UnitData>>(responseString);
 
@@ -239,7 +247,7 @@ namespace OPP
         
         void updateFood()
         {
-            string responseString = client.GetStringAsync("https://localhost:44320/api/game/food").Result;
+            string responseString = client.GetStringAsync("https://localhost:5001/api/game/food").Result; // Original 44320, jonas 5001
             List<UnitData> unitData = JsonConvert.DeserializeObject<List<UnitData>>(responseString);
 
             Debug.WriteLine(responseString);
@@ -252,6 +260,17 @@ namespace OPP
             }
 
             updateFoodinForm();
+        }
+
+        void sendSetRewind()
+        {
+            string responseString = client.GetStringAsync("https://localhost:5001/api/game/rewind/"+ playerPictureBox.BackColor.Name + "/set").Result; // Original 44320, jonas 5001
+            Debug.WriteLine(responseString);
+        }
+        void sendTriggerRewind()
+        {
+            string responseString = client.GetStringAsync("https://localhost:5001/api/game/rewind/" + playerPictureBox.BackColor.Name + "/trigger").Result; // Original 44320, jonas 5001
+            Debug.WriteLine(responseString);
         }
 
         void updateFoodinForm()
@@ -410,7 +429,7 @@ namespace OPP
         private static async Task PostBasicAsync(object content, CancellationToken cancellationToken)
         {
             using (var client = new HttpClient())
-            using (var request = new HttpRequestMessage(HttpMethod.Post, "https://localhost:44320/api/game"))
+            using (var request = new HttpRequestMessage(HttpMethod.Post, "https://localhost:5001/api/game")) // Original 44320, jonas 5001
             {
                 var json = JsonConvert.SerializeObject(content);
                 using (var stringContent = new StringContent(json, Encoding.UTF8, "application/json"))
