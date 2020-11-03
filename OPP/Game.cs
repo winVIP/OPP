@@ -20,7 +20,7 @@ using OPP.Behaviors;
 
 namespace OPP
 {
-    public partial class Form1 : Form
+    public partial class Game : Form
     {
         Random random = new Random();
 
@@ -46,7 +46,7 @@ namespace OPP
         //Should be false by default
         bool isConfused = false;
         bool confusionChecked = false;
-        public Form1()
+        public Game()
         {
             InitializeComponent();
             FirstPost();
@@ -60,7 +60,6 @@ namespace OPP
             allColors.Add(Color.Orange);
             allColors.Add(Color.Violet);
 
-            Debug.WriteLine("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA: " + playerColor);
             Task initialMapGet;
             initialMapGet = getMapAsyncAwait();
             initialMapGet.Wait();
@@ -193,7 +192,7 @@ namespace OPP
                         isConfused = item.confused;
                     }
                     //Checking if we need to get food too
-                    if (item.foodListChanged)
+                    if (item.foodListChanged && item.playerColor == playerColor)
                     {
                         Debug.WriteLine("Need to change food list nibba");
                         updateFood();
