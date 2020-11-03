@@ -7,33 +7,35 @@ namespace OPP
 {
     public class Facade
     {
-        /*Game GameSystem;
-        Login LoginSystem;
-        Map MapSystem;
-
+        public Game game;
+        public Map map;
         public Facade()
         {
-            GameSystem = new Game();
-            LoginSystem = new Login();
-            MapSystem = new Map();
+            game = new Game();
+            map = new Map();
         }
 
-        public void ConfigureApplicationAndStartLoginProccess()
+        public void FullReset()
         {
-            Application.SetHighDpiMode(HighDpiMode.SystemAware);
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(LoginSystem);
+            map.ClearFood();
+            map.ClearPlayers();
+            game.getPlayers();
+            game.Update();
         }
 
-        public string SendARequestandReturnAnswer(PictureBox playerPictureBox)
+        public void FoodUpdate()
         {
-            List<string> requestArgs = new List<string>();
-            requestArgs.Add(playerPictureBox.BackColor.Name);
-            requestArgs.Add("/set");
-            Get getreq = new Get("https://localhost:5001/api/game/rewind/", requestArgs);
-            return getreq.SendRequest();
-        }*/
+            map.ClearFood();
+            map.getFood();
+            game.Update();
+        }
+
+        public void PlayersUpdate()
+        {
+            map.ClearPlayers();
+            map.getPlayers();
+            game.Update();
+        }
 
     }
 }
