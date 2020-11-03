@@ -34,3 +34,21 @@ E:\Laborai\7_semestras\Objektinis geimas\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.csp
 E:\Laborai\7_semestras\Objektinis geimas\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.dll
 E:\Laborai\7_semestras\Objektinis geimas\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.pdb
 E:\Laborai\7_semestras\Objektinis geimas\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.genruntimeconfig.cache
+C:\Users\Jonas\Documents\GitHub\OPP\OPP\bin\Debug\netcoreapp3.1\OPP.exe
+C:\Users\Jonas\Documents\GitHub\OPP\OPP\bin\Debug\netcoreapp3.1\OPP.deps.json
+C:\Users\Jonas\Documents\GitHub\OPP\OPP\bin\Debug\netcoreapp3.1\OPP.runtimeconfig.json
+C:\Users\Jonas\Documents\GitHub\OPP\OPP\bin\Debug\netcoreapp3.1\OPP.runtimeconfig.dev.json
+C:\Users\Jonas\Documents\GitHub\OPP\OPP\bin\Debug\netcoreapp3.1\OPP.dll
+C:\Users\Jonas\Documents\GitHub\OPP\OPP\bin\Debug\netcoreapp3.1\OPP.pdb
+C:\Users\Jonas\Documents\GitHub\OPP\OPP\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
+C:\Users\Jonas\Documents\GitHub\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.csprojAssemblyReference.cache
+C:\Users\Jonas\Documents\GitHub\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.Login.resources
+C:\Users\Jonas\Documents\GitHub\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.csproj.GenerateResource.cache
+C:\Users\Jonas\Documents\GitHub\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.csproj.CoreCompileInputs.cache
+C:\Users\Jonas\Documents\GitHub\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.AssemblyInfoInputs.cache
+C:\Users\Jonas\Documents\GitHub\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.AssemblyInfo.cs
+C:\Users\Jonas\Documents\GitHub\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.csproj.CopyComplete
+C:\Users\Jonas\Documents\GitHub\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.dll
+C:\Users\Jonas\Documents\GitHub\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.pdb
+C:\Users\Jonas\Documents\GitHub\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.genruntimeconfig.cache
+C:\Users\Jonas\Documents\GitHub\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.Game.resources

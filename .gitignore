@@ -1,3 +1,11 @@
 .vs
 ./OPP/obj
 ./OPP/bin
+.vs/OPP/v16/.suo
+OPP/bin/Debug/netcoreapp3.1/OPP.dll
+OPP/bin/Debug/netcoreapp3.1/OPP.pdb
+OPP/obj/Debug/netcoreapp3.1/OPP.csproj.CoreCompileInputs.cache
+OPP/obj/Debug/netcoreapp3.1/OPP.csproj.FileListAbsolute.txt
+OPP/obj/Debug/netcoreapp3.1/OPP.csproj.GenerateResource.cache
+OPP/obj/Debug/netcoreapp3.1/OPP.dll
+OPP/obj/Debug/netcoreapp3.1/OPP.pdb
