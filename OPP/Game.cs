@@ -22,6 +22,7 @@ namespace OPP
 {
     public partial class Game : Form
     {
+        Facade GameFacade = new Facade();
         Random random = new Random();
 
         List<PictureBox> pbFood = new List<PictureBox>();
@@ -263,10 +264,7 @@ namespace OPP
 
         void sendSetRewind()
         {
-            List<string> requestArgs = new List<string>();
-            requestArgs.Add(playerPictureBox.BackColor.Name);
-            requestArgs.Add("/set");
-            Get getreq = new Get("https://localhost:5001/api/game/rewind/", requestArgs);
+            
             //Post postrequest = new RequestAdapter(getreq);
             string responseString = client.GetStringAsync("https://localhost:5001/api/game/rewind/"+ playerPictureBox.BackColor.Name + "/set").Result; // Original 44320, jonas 5001
             Debug.WriteLine(responseString);

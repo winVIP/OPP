@@ -7,7 +7,7 @@ namespace OPP
 {
     public class Facade
     {
-        Game GameSystem;
+        /*Game GameSystem;
         Login LoginSystem;
         Map MapSystem;
 
@@ -33,7 +33,7 @@ namespace OPP
             requestArgs.Add("/set");
             Get getreq = new Get("https://localhost:5001/api/game/rewind/", requestArgs);
             return getreq.SendRequest();
-        }
+        }*/
 
     }
 }
