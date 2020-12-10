@@ -188,7 +188,9 @@ namespace OPP
                     if (item.foodListChanged && item.playerColor == playerColor)
                     {
                         Debug.WriteLine("Need to change food list nibba");
-                        updateFood();
+                        Task updateFoodTask;
+                        updateFoodTask = updateFood();
+                        updateFoodTask.Wait();
                     }
                     map.addPlayer(new Unit(item.position, item.playerColor, item.playerSize));
                 }
@@ -237,7 +239,7 @@ namespace OPP
             index = allColors.IndexOf(playerColor);
         }
         
-        void updateFood()
+        async Task updateFood()
         {
             string responseString = client.GetStringAsync("https://localhost:44320/api/game/food").Result;
             List<UnitData> unitData = JsonConvert.DeserializeObject<List<UnitData>>(responseString);
@@ -252,6 +254,7 @@ namespace OPP
             }
 
             updateFoodinForm();
+
         }
 
         void updateFoodinForm()

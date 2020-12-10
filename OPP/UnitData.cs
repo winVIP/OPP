@@ -19,5 +19,7 @@ namespace OPP
         public bool confused { get; set; }
 
         public bool foodListChanged { get; set; }
+
+        public int foodIndex { get; set; }
     }
 }
