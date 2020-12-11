@@ -5,8 +5,6 @@ C:\Users\vyten\Desktop\OPP\OPP\bin\Debug\netcoreapp3.1\OPP.runtimeconfig.dev.jso
 C:\Users\vyten\Desktop\OPP\OPP\bin\Debug\netcoreapp3.1\OPP.dll
 C:\Users\vyten\Desktop\OPP\OPP\bin\Debug\netcoreapp3.1\OPP.pdb
 C:\Users\vyten\Desktop\OPP\OPP\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
-C:\Users\vyten\Desktop\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.csprojAssemblyReference.cache
-C:\Users\vyten\Desktop\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.Form1.resources
 C:\Users\vyten\Desktop\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.Login.resources
 C:\Users\vyten\Desktop\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.csproj.GenerateResource.cache
 C:\Users\vyten\Desktop\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.AssemblyInfoInputs.cache
@@ -52,3 +50,4 @@ C:\Users\Jonas\Documents\GitHub\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.dll
 C:\Users\Jonas\Documents\GitHub\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.pdb
 C:\Users\Jonas\Documents\GitHub\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.genruntimeconfig.cache
 C:\Users\Jonas\Documents\GitHub\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.Game.resources
+C:\Users\vyten\Desktop\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.Game.resources

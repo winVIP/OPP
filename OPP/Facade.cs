@@ -7,35 +7,35 @@ namespace OPP
 {
     public class Facade
     {
-        public Game game;
-        public Map map;
-        public Facade()
-        {
-            game = new Game();
-            map = new Map();
-        }
+        //public Game game;
+        //public Map map;
+        //public Facade()
+        //{
+        //    game = new Game();
+        //    map = new Map();
+        //}
 
-        public void FullReset()
-        {
-            map.ClearFood();
-            map.ClearPlayers();
-            game.getPlayers();
-            game.Update();
-        }
+        //public void FullReset()
+        //{
+        //    map.ClearFood();
+        //    map.ClearPlayers();
+        //    game.getPlayers();
+        //    game.Update();
+        //}
 
-        public void FoodUpdate()
-        {
-            map.ClearFood();
-            map.getFood();
-            game.Update();
-        }
+        //public void FoodUpdate()
+        //{
+        //    map.ClearFood();
+        //    map.getFood();
+        //    game.Update();
+        //}
 
-        public void PlayersUpdate()
-        {
-            map.ClearPlayers();
-            map.getPlayers();
-            game.Update();
-        }
+        //public void PlayersUpdate()
+        //{
+        //    map.ClearPlayers();
+        //    map.getPlayers();
+        //    game.Update();
+        //}
 
     }
 }
