@@ -22,31 +22,32 @@ namespace OPP
 {
     public partial class Game : Form
     {
-        Facade GameFacade = new Facade();
-        Random random = new Random();
+        private Random random = new Random();
 
-        List<PictureBox> pbFood = new List<PictureBox>();
-        Map map = new Map();
-        List<Color> allColors = new List<Color>();
+        private Map map = new Map();
+        private List<Color> allColors = new List<Color>();
 
-        PictureBox playerPictureBox;
-        IWalkBehavior normalWalkBehavior = new NormalWalk();
-        IWalkBehavior confusedWalkBehavior = new ConfusedWalk();
-        IWalkBehavior confusedWalkBehavior2 = new ConfusedWalk2();
-        IWalkBehavior confusedWalkBehavior3 = new ConfusedWalk3();
+        private PictureBox playerPictureBox;
+        private IWalkBehavior normalWalkBehavior = new NormalWalk();
+        private IWalkBehavior confusedWalkBehavior = new ConfusedWalk();
+        private IWalkBehavior confusedWalkBehavior2 = new ConfusedWalk2();
+        private IWalkBehavior confusedWalkBehavior3 = new ConfusedWalk3();
 
-        bool up = false;
-        bool down = false;
-        bool left = false;
-        bool right = false;
+        private bool up = false;
+        private bool down = false;
+        private bool left = false;
+        private bool right = false;
 
-        Color playerColor = Color.White;
-        int index;
-        int playerSpeed = 10;
+        private Color playerColor = Color.White;
+        private int index;
+        private int playerSpeed = 10;
 
         //Should be false by default
-        bool isConfused = false;
-        bool confusionChecked = false;
+        private bool isConfused = false;
+        private bool confusionChecked = false;
+
+        private static HttpClient client = new HttpClient();
+
         public Game()
         {
             InitializeComponent();
@@ -125,17 +126,8 @@ namespace OPP
             {
                 down = true;
             }
-            if(e.KeyCode == Keys.R)
-            {
-                sendSetRewind();
-            }
-            if(e.KeyCode == Keys.T)
-            {
-                sendTriggerRewind();
-            }
         }
 
-        private static HttpClient client = new HttpClient();
 
         
 
@@ -177,7 +169,7 @@ namespace OPP
 
         public void getPlayers()
         {
-            string responseString = client.GetStringAsync("https://localhost:44320/api/game/players").Result; // Original 44320, jonas 5001
+            string responseString = client.GetStringAsync("https://localhost:44320/api/game/players").Result;
 
             map.ClearPlayers();
 
@@ -196,7 +188,9 @@ namespace OPP
                     if (item.foodListChanged && item.playerColor == playerColor)
                     {
                         Debug.WriteLine("Need to change food list nibba");
-                        updateFood();
+                        Task updateFoodTask;
+                        updateFoodTask = updateFood();
+                        updateFoodTask.Wait();
                     }
                     map.addPlayer(new Unit(item.position, item.playerColor, item.playerSize));
                 }
@@ -213,13 +207,13 @@ namespace OPP
 
             playerPictureBox.Size = new Size(map.getPlayers()[index].getSize().Width, map.getPlayers()[index].getSize().Height);
 
-            UpdatePlayers();
+            updatePlayers();
 
         }
 
         public async Task getMapAsyncAwait()
         {
-            string responseString = client.GetStringAsync("https://localhost:44320/api/game").Result; // Original 44320, jonas 5001
+            string responseString = client.GetStringAsync("https://localhost:44320/api/game").Result;
 
             List<UnitData> unitData = JsonConvert.DeserializeObject<List<UnitData>>(responseString);
 
@@ -245,9 +239,9 @@ namespace OPP
             index = allColors.IndexOf(playerColor);
         }
         
-        void updateFood()
+        async Task updateFood()
         {
-            string responseString = client.GetStringAsync("https://localhost:44320/api/game/food").Result; // Original 44320, jonas 5001
+            string responseString = client.GetStringAsync("https://localhost:44320/api/game/food").Result;
             List<UnitData> unitData = JsonConvert.DeserializeObject<List<UnitData>>(responseString);
 
             Debug.WriteLine(responseString);
@@ -260,19 +254,7 @@ namespace OPP
             }
 
             updateFoodinForm();
-        }
 
-        void sendSetRewind()
-        {
-            
-            //Post postrequest = new RequestAdapter(getreq);
-            string responseString = client.GetStringAsync("https://localhost:44320/api/game/rewind/" + playerPictureBox.BackColor.Name + "/set").Result; // Original 44320, jonas 5001
-            Debug.WriteLine(responseString);
-        }
-        void sendTriggerRewind()
-        {
-            string responseString = client.GetStringAsync("https://localhost:44320/api/game/rewind/" + playerPictureBox.BackColor.Name + "/trigger").Result; // Original 44320, jonas 5001
-            Debug.WriteLine(responseString);
         }
 
         void updateFoodinForm()
@@ -351,7 +333,7 @@ namespace OPP
             getPlayers();
         }
 
-        private void UpdatePlayers()
+        private void updatePlayers()
         {
             //Clearing players from form before adding again
 
@@ -431,7 +413,7 @@ namespace OPP
         private static async Task PostBasicAsync(object content, CancellationToken cancellationToken)
         {
             using (var client = new HttpClient())
-            using (var request = new HttpRequestMessage(HttpMethod.Post, "https://localhost:44320/api/game")) // Original 44320, jonas 5001
+            using (var request = new HttpRequestMessage(HttpMethod.Post, "https://localhost:44320/api/game"))
             {
                 var json = JsonConvert.SerializeObject(content);
                 using (var stringContent = new StringContent(json, Encoding.UTF8, "application/json"))

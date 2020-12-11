@@ -48,13 +48,5 @@ namespace OPP
         {
             this.position = position;
         }
-        public void setColor(Color color)
-        {
-            this.playerColor = color;
-        }
-        public void setSize(Size size)
-        {
-            this.playerSize = size;
-        }
     }
 }
