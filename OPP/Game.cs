@@ -50,6 +50,9 @@ namespace OPP
 
         public Game()
         {
+            Terminal.Terminal myTerminal = new Terminal.Terminal();
+            myTerminal.Show();
+
             InitializeComponent();
             FirstPost();
 

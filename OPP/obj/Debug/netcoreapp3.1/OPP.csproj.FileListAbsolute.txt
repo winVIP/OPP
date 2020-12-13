@@ -51,3 +51,5 @@ C:\Users\Jonas\Documents\GitHub\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.pdb
 C:\Users\Jonas\Documents\GitHub\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.genruntimeconfig.cache
 C:\Users\Jonas\Documents\GitHub\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.Game.resources
 C:\Users\vyten\Desktop\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.Game.resources
+C:\Users\vyten\Desktop\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.csprojAssemblyReference.cache
+C:\Users\vyten\Desktop\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.Terminal.Terminal.resources
