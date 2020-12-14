@@ -172,6 +172,7 @@ namespace OPP
 
         public void getPlayers()
         {
+            Debug.WriteLine("GET TICK");
             string responseString = client.GetStringAsync("https://localhost:44320/api/game/players").Result;
 
             map.ClearPlayers();
@@ -191,9 +192,8 @@ namespace OPP
                     if (item.foodListChanged && item.playerColor == playerColor)
                     {
                         Debug.WriteLine("Need to change food list nibba");
-                        Task updateFoodTask;
-                        updateFoodTask = updateFood();
-                        updateFoodTask.Wait();
+                        updateFood();
+                        Debug.WriteLine("Not WAITINGIN anymore");
                     }
                     map.addPlayer(new Unit(item.position, item.playerColor, item.playerSize));
                 }
@@ -242,9 +242,9 @@ namespace OPP
             index = allColors.IndexOf(playerColor);
         }
         
-        async Task updateFood()
+        public async void updateFood()
         {
-            string responseString = client.GetStringAsync("https://localhost:44320/api/game/food").Result;
+            string responseString = await client.GetStringAsync("https://localhost:44320/api/game/food");
             List<UnitData> unitData = JsonConvert.DeserializeObject<List<UnitData>>(responseString);
 
             Debug.WriteLine(responseString);
@@ -281,6 +281,18 @@ namespace OPP
                 if(unit.getType() == 2)
                 {
                     color = Color.MediumAquamarine;
+                }
+                if (unit.getType() == 1)
+                {
+                    color = Color.DarkGreen;
+                }
+                if (unit.getType() == 3)
+                {
+                    color = Color.AliceBlue;
+                }
+                if (unit.getType() == 4)
+                {
+                    color = Color.BlanchedAlmond;
                 }
                 // Make a GraphicsPath and add the circle.
                 GraphicsPath path = new GraphicsPath();
