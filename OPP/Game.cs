@@ -129,46 +129,63 @@ namespace OPP
             {
                 down = true;
             }
+            if (e.KeyCode == Keys.R)
+            {
+                sendSetRewind();
+            }
+            if (e.KeyCode == Keys.T)
+            {
+                sendTriggerRewind();
+            }
+        }
+
+        void sendSetRewind()
+        {
+            string responseString = client.GetStringAsync("https://localhost:44320/api/game/rewind/" + playerPictureBox.BackColor.Name + "/set").Result; // Original 44320, jonas 5001
+            Debug.WriteLine(responseString);
+        }
+        void sendTriggerRewind()
+        {
+            string responseString = client.GetStringAsync("https://localhost:44320/api/game/rewind/" + playerPictureBox.BackColor.Name + "/trigger").Result; // Original 44320, jonas 5001
+            Debug.WriteLine(responseString);
         }
 
 
-        
+        /* public void getMapAsync()
+         {
+             string responseString = client.GetStringAsync("https://localhost:44320/api/game").Result;
 
-       /* public void getMapAsync()
-        {
-            string responseString = client.GetStringAsync("https://localhost:44320/api/game").Result;
+             map.ClearFoodAndPlayers();
 
-            map.ClearFoodAndPlayers();
+             List<UnitData> unitData = JsonConvert.DeserializeObject<List<UnitData>>(responseString);
 
-            List<UnitData> unitData = JsonConvert.DeserializeObject<List<UnitData>>(responseString);
+             foreach (var item in unitData)
+             {
+                 if(item.type == 0)
+                 {
+                     //if player is not confused he checks data from server server wether he is confused
+                     if(playerColor == item.playerColor && isConfused == false)
+                     {
+                         isConfused = item.confused;
+                     }
+                     map.addPlayer(new Unit(item.position, item.playerColor, item.playerSize));
+                 }
+                 else
+                 {
+                     map.addFood(new Unit(item.position, item.type));
+                 }
+             }
 
-            foreach (var item in unitData)
-            {
-                if(item.type == 0)
-                {
-                    //if player is not confused he checks data from server server wether he is confused
-                    if(playerColor == item.playerColor && isConfused == false)
-                    {
-                        isConfused = item.confused;
-                    }
-                    map.addPlayer(new Unit(item.position, item.playerColor, item.playerSize));
-                }
-                else
-                {
-                    map.addFood(new Unit(item.position, item.type));
-                }
-            }
+             playerPictureBox.BackColor = map.getPlayers()[index].getColor();
 
-            playerPictureBox.BackColor = map.getPlayers()[index].getColor();
+             GraphicsPath path = new GraphicsPath();
+             path.AddEllipse(0, 0, map.getPlayers()[index].getSize().Width, map.getPlayers()[index].getSize().Height);
 
-            GraphicsPath path = new GraphicsPath();
-            path.AddEllipse(0, 0, map.getPlayers()[index].getSize().Width, map.getPlayers()[index].getSize().Height);
+             Region region = new Region(path);
+             playerPictureBox.Region = region;
 
-            Region region = new Region(path);
-            playerPictureBox.Region = region;
-
-            playerPictureBox.Size = new Size(map.getPlayers()[index].getSize().Width, map.getPlayers()[index].getSize().Height);
-        }*/
+             playerPictureBox.Size = new Size(map.getPlayers()[index].getSize().Width, map.getPlayers()[index].getSize().Height);
+         }*/
 
         public void getPlayers()
         {
