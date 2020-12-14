@@ -309,7 +309,7 @@ namespace OPP
                 }
                 if (unit.getType() == 4)
                 {
-                    color = Color.BlanchedAlmond;
+                    color = Color.Azure;
                 }
                 // Make a GraphicsPath and add the circle.
                 GraphicsPath path = new GraphicsPath();
