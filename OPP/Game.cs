@@ -17,7 +17,6 @@ using Newtonsoft.Json;
 using System.Diagnostics;
 using OPP.Interfaces;
 using OPP.Behaviors;
-using System.IO;
 
 namespace OPP
 {
@@ -142,12 +141,12 @@ namespace OPP
 
         void sendSetRewind()
         {
-            string responseString = client.GetStringAsync(CONFIG_CHANGE_THIS.LOCALHOST + "api/game/rewind/" + playerPictureBox.BackColor.Name + "/set").Result; // Original 44320, jonas 5001
+            string responseString = client.GetStringAsync("https://localhost:44320/api/game/rewind/" + playerPictureBox.BackColor.Name + "/set").Result; // Original 44320, jonas 5001
             Debug.WriteLine(responseString);
         }
         void sendTriggerRewind()
         {
-            string responseString = client.GetStringAsync(CONFIG_CHANGE_THIS.LOCALHOST + "api/game/rewind/" + playerPictureBox.BackColor.Name + "/trigger").Result; // Original 44320, jonas 5001
+            string responseString = client.GetStringAsync("https://localhost:44320/api/game/rewind/" + playerPictureBox.BackColor.Name + "/trigger").Result; // Original 44320, jonas 5001
             Debug.WriteLine(responseString);
         }
 
@@ -191,7 +190,7 @@ namespace OPP
         public void getPlayers()
         {
             Debug.WriteLine("GET TICK");
-            string responseString = client.GetStringAsync(CONFIG_CHANGE_THIS.LOCALHOST + "api/game/players").Result;
+            string responseString = client.GetStringAsync("https://localhost:44320/api/game/players").Result;
 
             map.ClearPlayers();
 
@@ -234,7 +233,7 @@ namespace OPP
 
         public async Task getMapAsyncAwait()
         {
-            string responseString = client.GetStringAsync(CONFIG_CHANGE_THIS.LOCALHOST + "api/game").Result;
+            string responseString = client.GetStringAsync("https://localhost:44320/api/game").Result;
 
             List<UnitData> unitData = JsonConvert.DeserializeObject<List<UnitData>>(responseString);
 
@@ -262,7 +261,7 @@ namespace OPP
         
         public async void updateFood()
         {
-            string responseString = await client.GetStringAsync(CONFIG_CHANGE_THIS.LOCALHOST + "api/game/food");
+            string responseString = await client.GetStringAsync("https://localhost:44320/api/game/food");
             List<UnitData> unitData = JsonConvert.DeserializeObject<List<UnitData>>(responseString);
 
             Debug.WriteLine(responseString);
@@ -446,7 +445,7 @@ namespace OPP
         private static async Task PostBasicAsync(object content, CancellationToken cancellationToken)
         {
             using (var client = new HttpClient())
-            using (var request = new HttpRequestMessage(HttpMethod.Post, CONFIG_CHANGE_THIS.LOCALHOST + "api/game"))
+            using (var request = new HttpRequestMessage(HttpMethod.Post, "https://localhost:44320/api/game"))
             {
                 var json = JsonConvert.SerializeObject(content);
                 using (var stringContent = new StringContent(json, Encoding.UTF8, "application/json"))
