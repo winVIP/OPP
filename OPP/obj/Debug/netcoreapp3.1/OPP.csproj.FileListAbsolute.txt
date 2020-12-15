@@ -53,3 +53,22 @@ C:\Users\Jonas\Documents\GitHub\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.Game.resourc
 C:\Users\vyten\Desktop\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.Game.resources
 C:\Users\vyten\Desktop\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.csprojAssemblyReference.cache
 C:\Users\vyten\Desktop\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.Terminal.Terminal.resources
+E:\Laborai\7_semestras\Objektinis geimas\OPP_main\OPP\bin\Debug\netcoreapp3.1\OPP.exe
+E:\Laborai\7_semestras\Objektinis geimas\OPP_main\OPP\bin\Debug\netcoreapp3.1\OPP.deps.json
+E:\Laborai\7_semestras\Objektinis geimas\OPP_main\OPP\bin\Debug\netcoreapp3.1\OPP.runtimeconfig.json
+E:\Laborai\7_semestras\Objektinis geimas\OPP_main\OPP\bin\Debug\netcoreapp3.1\OPP.runtimeconfig.dev.json
+E:\Laborai\7_semestras\Objektinis geimas\OPP_main\OPP\bin\Debug\netcoreapp3.1\OPP.dll
+E:\Laborai\7_semestras\Objektinis geimas\OPP_main\OPP\bin\Debug\netcoreapp3.1\OPP.pdb
+E:\Laborai\7_semestras\Objektinis geimas\OPP_main\OPP\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
+E:\Laborai\7_semestras\Objektinis geimas\OPP_main\OPP\obj\Debug\netcoreapp3.1\OPP.Game.resources
+E:\Laborai\7_semestras\Objektinis geimas\OPP_main\OPP\obj\Debug\netcoreapp3.1\OPP.Login.resources
+E:\Laborai\7_semestras\Objektinis geimas\OPP_main\OPP\obj\Debug\netcoreapp3.1\OPP.Terminal.Terminal.resources
+E:\Laborai\7_semestras\Objektinis geimas\OPP_main\OPP\obj\Debug\netcoreapp3.1\OPP.csproj.GenerateResource.cache
+E:\Laborai\7_semestras\Objektinis geimas\OPP_main\OPP\obj\Debug\netcoreapp3.1\OPP.AssemblyInfoInputs.cache
+E:\Laborai\7_semestras\Objektinis geimas\OPP_main\OPP\obj\Debug\netcoreapp3.1\OPP.AssemblyInfo.cs
+E:\Laborai\7_semestras\Objektinis geimas\OPP_main\OPP\obj\Debug\netcoreapp3.1\OPP.csproj.CoreCompileInputs.cache
+E:\Laborai\7_semestras\Objektinis geimas\OPP_main\OPP\obj\Debug\netcoreapp3.1\OPP.csproj.CopyComplete
+E:\Laborai\7_semestras\Objektinis geimas\OPP_main\OPP\obj\Debug\netcoreapp3.1\OPP.dll
+E:\Laborai\7_semestras\Objektinis geimas\OPP_main\OPP\obj\Debug\netcoreapp3.1\OPP.pdb
+E:\Laborai\7_semestras\Objektinis geimas\OPP_main\OPP\obj\Debug\netcoreapp3.1\OPP.genruntimeconfig.cache
+E:\Laborai\7_semestras\Objektinis geimas\OPP_main\OPP\obj\Debug\netcoreapp3.1\OPP.csprojAssemblyReference.cache
