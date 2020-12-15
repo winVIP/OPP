@@ -205,7 +205,7 @@ namespace OPP
                         isConfused = item.confused;
                     }
                     //Checking if we need to get food too
-                    if (item.foodListChanged && item.playerColor == playerColor)
+                    if (item.playerColor == playerColor)
                     {
                         Debug.WriteLine("Need to change food list nibba");
                         Task updateFoodTask;
@@ -430,24 +430,45 @@ namespace OPP
             PostBasicAsync(forSending, new CancellationToken()).Wait();
         }
 
-        private static async Task PostBasicAsync(object content, CancellationToken cancellationToken)
+        private static async Task PostBasicAsync(object content1, CancellationToken cancellationToken)
         {
-            using (var client = new HttpClient())
-            using (var request = new HttpRequestMessage(HttpMethod.Post, "https://localhost:44320/api/game"))
-            {
-                var json = JsonConvert.SerializeObject(content);
-                using (var stringContent = new StringContent(json, Encoding.UTF8, "application/json"))
-                {
-                    request.Content = stringContent;
+            string tokenURL = @"https://localhost:44320/api/game";
 
-                    using (var response = await client
-                        .SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken)
-                        .ConfigureAwait(false))
-                    {
-                        response.EnsureSuccessStatusCode();
-                    }
-                }
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri(tokenURL);
+
+            client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+            HttpContent content = new StringContent(JsonConvert.SerializeObject(content1), Encoding.UTF8, "application/json");
+
+            HttpResponseMessage response = client.PostAsync("", content).Result;
+            if (response.IsSuccessStatusCode)
+            {
+
             }
+            else
+            {
+                Debug.WriteLine("Nepavyko");
+                Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
+            }
+
+            client.Dispose();
+            //using (var client = new HttpClient())
+            //using (var request = new HttpRequestMessage(HttpMethod.Post, "https://localhost:44320/api/game"))
+            //{
+            //    var json = JsonConvert.SerializeObject(content);
+            //    using (var stringContent = new StringContent(json, Encoding.UTF8, "application/json"))
+            //    {
+            //        request.Content = stringContent;
+
+            //        using (var response = await client
+            //            .SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken)
+            //            .ConfigureAwait(false))
+            //        {
+            //            response.EnsureSuccessStatusCode();
+            //        }
+            //    }
+            //}
         }
     }
 }
