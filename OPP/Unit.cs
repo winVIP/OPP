@@ -12,6 +12,7 @@ namespace OPP
         int type;
         Color playerColor;
         Size playerSize;
+        public int index;
 
         public Unit(Point position, Color color, Size size)
         {
