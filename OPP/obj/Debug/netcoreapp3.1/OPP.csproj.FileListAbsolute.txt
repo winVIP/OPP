@@ -1,19 +1,3 @@
-C:\Users\vyten\Desktop\OPP\OPP\bin\Debug\netcoreapp3.1\OPP.exe
-C:\Users\vyten\Desktop\OPP\OPP\bin\Debug\netcoreapp3.1\OPP.deps.json
-C:\Users\vyten\Desktop\OPP\OPP\bin\Debug\netcoreapp3.1\OPP.runtimeconfig.json
-C:\Users\vyten\Desktop\OPP\OPP\bin\Debug\netcoreapp3.1\OPP.runtimeconfig.dev.json
-C:\Users\vyten\Desktop\OPP\OPP\bin\Debug\netcoreapp3.1\OPP.dll
-C:\Users\vyten\Desktop\OPP\OPP\bin\Debug\netcoreapp3.1\OPP.pdb
-C:\Users\vyten\Desktop\OPP\OPP\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
-C:\Users\vyten\Desktop\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.Login.resources
-C:\Users\vyten\Desktop\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.csproj.GenerateResource.cache
-C:\Users\vyten\Desktop\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.AssemblyInfoInputs.cache
-C:\Users\vyten\Desktop\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.AssemblyInfo.cs
-C:\Users\vyten\Desktop\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.csproj.CoreCompileInputs.cache
-C:\Users\vyten\Desktop\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.csproj.CopyComplete
-C:\Users\vyten\Desktop\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.dll
-C:\Users\vyten\Desktop\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.pdb
-C:\Users\vyten\Desktop\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.genruntimeconfig.cache
 E:\Laborai\7_semestras\Objektinis geimas\OPP\OPP\bin\Debug\netcoreapp3.1\OPP.exe
 E:\Laborai\7_semestras\Objektinis geimas\OPP\OPP\bin\Debug\netcoreapp3.1\OPP.deps.json
 E:\Laborai\7_semestras\Objektinis geimas\OPP\OPP\bin\Debug\netcoreapp3.1\OPP.runtimeconfig.json
@@ -50,9 +34,6 @@ C:\Users\Jonas\Documents\GitHub\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.dll
 C:\Users\Jonas\Documents\GitHub\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.pdb
 C:\Users\Jonas\Documents\GitHub\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.genruntimeconfig.cache
 C:\Users\Jonas\Documents\GitHub\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.Game.resources
-C:\Users\vyten\Desktop\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.Game.resources
-C:\Users\vyten\Desktop\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.csprojAssemblyReference.cache
-C:\Users\vyten\Desktop\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.Terminal.Terminal.resources
 E:\Laborai\7_semestras\Objektinis geimas\OPP_main\OPP\bin\Debug\netcoreapp3.1\OPP.exe
 E:\Laborai\7_semestras\Objektinis geimas\OPP_main\OPP\bin\Debug\netcoreapp3.1\OPP.deps.json
 E:\Laborai\7_semestras\Objektinis geimas\OPP_main\OPP\bin\Debug\netcoreapp3.1\OPP.runtimeconfig.json
@@ -72,3 +53,22 @@ E:\Laborai\7_semestras\Objektinis geimas\OPP_main\OPP\obj\Debug\netcoreapp3.1\OP
 E:\Laborai\7_semestras\Objektinis geimas\OPP_main\OPP\obj\Debug\netcoreapp3.1\OPP.pdb
 E:\Laborai\7_semestras\Objektinis geimas\OPP_main\OPP\obj\Debug\netcoreapp3.1\OPP.genruntimeconfig.cache
 E:\Laborai\7_semestras\Objektinis geimas\OPP_main\OPP\obj\Debug\netcoreapp3.1\OPP.csprojAssemblyReference.cache
+C:\Users\vyten\Desktop\OPP\OPP\bin\Debug\netcoreapp3.1\OPP.exe
+C:\Users\vyten\Desktop\OPP\OPP\bin\Debug\netcoreapp3.1\OPP.deps.json
+C:\Users\vyten\Desktop\OPP\OPP\bin\Debug\netcoreapp3.1\OPP.runtimeconfig.json
+C:\Users\vyten\Desktop\OPP\OPP\bin\Debug\netcoreapp3.1\OPP.runtimeconfig.dev.json
+C:\Users\vyten\Desktop\OPP\OPP\bin\Debug\netcoreapp3.1\OPP.dll
+C:\Users\vyten\Desktop\OPP\OPP\bin\Debug\netcoreapp3.1\OPP.pdb
+C:\Users\vyten\Desktop\OPP\OPP\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
+C:\Users\vyten\Desktop\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.Game.resources
+C:\Users\vyten\Desktop\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.Login.resources
+C:\Users\vyten\Desktop\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.Terminal.Terminal.resources
+C:\Users\vyten\Desktop\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.csproj.GenerateResource.cache
+C:\Users\vyten\Desktop\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.AssemblyInfoInputs.cache
+C:\Users\vyten\Desktop\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.AssemblyInfo.cs
+C:\Users\vyten\Desktop\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.csproj.CoreCompileInputs.cache
+C:\Users\vyten\Desktop\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.csproj.CopyComplete
+C:\Users\vyten\Desktop\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.dll
+C:\Users\vyten\Desktop\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.pdb
+C:\Users\vyten\Desktop\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.genruntimeconfig.cache
+C:\Users\vyten\Desktop\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.csprojAssemblyReference.cache

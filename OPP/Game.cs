@@ -211,6 +211,7 @@ namespace OPP
                         //Task updateFoodTask;
                         //updateFoodTask = updateFood();
                         //updateFoodTask.Wait();
+                        playerPictureBox.Location = item.position;
                         updateFood();
                     }
                     map.addPlayer(new Unit(item.position, item.playerColor, item.playerSize));
