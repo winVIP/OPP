@@ -22,6 +22,7 @@ namespace OPP
 {
     public partial class Game : Form
     {
+        public int i = 0;
         private Random random = new Random();
 
         private Map map = new Map();
@@ -207,10 +208,10 @@ namespace OPP
                     //Checking if we need to get food too
                     if (item.playerColor == playerColor)
                     {
-                        Debug.WriteLine("Need to change food list nibba");
-                        Task updateFoodTask;
-                        updateFoodTask = updateFood();
-                        updateFoodTask.Wait();
+                        //Task updateFoodTask;
+                        //updateFoodTask = updateFood();
+                        //updateFoodTask.Wait();
+                        updateFood();
                     }
                     map.addPlayer(new Unit(item.position, item.playerColor, item.playerSize));
                 }
@@ -259,37 +260,30 @@ namespace OPP
             index = allColors.IndexOf(playerColor);
         }
         
-        async Task updateFood()
+        void updateFood()
         {
             string responseString = client.GetStringAsync("https://localhost:44320/api/game/food").Result;
             List<UnitData> unitData = JsonConvert.DeserializeObject<List<UnitData>>(responseString);
 
-            Debug.WriteLine(responseString);
-
-            map.ClearFood();
-           
-            foreach (var item in unitData)
+            for (int i = 0; i < unitData.Count; i++)
             {
-                map.addFood(new Unit(item.position, item.type));
+                if(map.getFood()[i].getPosition() != unitData[i].position)
+                {
+                    foreach(Control item in Controls)
+                    {
+                        if (item.Text.Equals(i.ToString()))
+                        {
+                            item.Location = unitData[i].position;
+                        }
+                    }
+                    map.getFood()[i].setPosition(unitData[i].position);
+                }
             }
-
-            updateFoodinForm();
 
         }
 
         void updateFoodinForm()
         {
-
-            foreach (Control item in Controls)
-            {
-
-                //Galima suteikti foodui text, pagal kurį išeitų atnaujint po vieną.
-                item.Text = "1";
-                if (!allColors.Contains(item.BackColor))
-                {
-                    Controls.Remove(item);
-                }
-            }
 
             foreach (Unit unit in map.getFood())
             {
@@ -298,6 +292,10 @@ namespace OPP
                 if(unit.getType() == 2)
                 {
                     color = Color.MediumAquamarine;
+                }
+                if (unit.getType() == 1)
+                {
+                    color = Color.DarkGreen;
                 }
                 // Make a GraphicsPath and add the circle.
                 GraphicsPath path = new GraphicsPath();
@@ -311,6 +309,7 @@ namespace OPP
                 pictureBox.Region = region;
                 pictureBox.Size = new Size(10, 10);
                 pictureBox.Location = unit.getPosition();
+                pictureBox.Text = unit.index.ToString();
                 this.Controls.Add(pictureBox);
             }
         }
