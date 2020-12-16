@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "iNu5bhtPpFHogRH0KbdL1KFdarqz9cGLTlt46rLaNLAyYSdaOXUXkIrUg6FXnwFFeQ2VdUuKekAqYeKTPmr8vA==",
+  "dgSpecHash": "UlLLzBtlvt0gk6P+HZZE68dqn53tBlZrUZJsNGMHvicnNM3F4r+kQF1rYgawYBnByii5+eQqHGfRbAjNZ4MQ6A==",
   "success": true,
-  "projectFilePath": "E:\\Laborai\\7_semestras\\Objektinis geimas\\OPP_main\\OPP\\OPP.csproj",
+  "projectFilePath": "C:\\Users\\vyten\\Desktop\\OPP\\OPP\\OPP.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\rksur\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512"
+    "C:\\Users\\vyten\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512"
   ],
   "logs": []
 }
