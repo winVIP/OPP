@@ -22,11 +22,11 @@ namespace OPP
             this.playerSize = size;
         }
 
-        public Unit(Point position, int type, Color col)
+        public Unit(Point position, int type, Color color)
         {
             this.position = position;
             this.type = type;
-            this.playerColor = col;
+            this.playerColor = color;
         }
 
         public Point getPosition()
