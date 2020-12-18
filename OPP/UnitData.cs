@@ -21,5 +21,7 @@ namespace OPP
         public bool foodListChanged { get; set; }
 
         public int foodIndex { get; set; }
+
+        public int mode { get; set; }
     }
 }
