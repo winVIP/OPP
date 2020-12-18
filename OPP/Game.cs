@@ -211,7 +211,6 @@ namespace OPP
                         //Task updateFoodTask;
                         //updateFoodTask = updateFood();
                         //updateFoodTask.Wait();
-                        playerPictureBox.Location = item.position;
                         updateFood();
                     }
                     map.addPlayer(new Unit(item.position, item.playerColor, item.playerSize));
@@ -427,7 +426,7 @@ namespace OPP
 
             string forSending = string.Format("{{ \"position\":\"{0}, {1}\",\"type\":{2},\"playerColor\":\"{3}\",\"playerSize\":\"{4}, {5}\"}}",
                 unitData.position.X, unitData.position.Y.ToString(), unitData.type.ToString(), unitData.playerColor.Name, unitData.playerSize.Width.ToString(), unitData.playerSize.Height.ToString());
-            PostBasicAsync(forSending, new CancellationToken()).Wait();
+            PostBasicAsync(forSending, new CancellationToken());
         }
 
         private static async Task PostBasicAsync(object content1, CancellationToken cancellationToken)

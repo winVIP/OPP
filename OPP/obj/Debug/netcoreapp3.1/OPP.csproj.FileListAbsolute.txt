@@ -71,4 +71,3 @@ C:\Users\vyten\Desktop\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.csproj.CopyComplete
 C:\Users\vyten\Desktop\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.dll
 C:\Users\vyten\Desktop\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.pdb
 C:\Users\vyten\Desktop\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.genruntimeconfig.cache
-C:\Users\vyten\Desktop\OPP\OPP\obj\Debug\netcoreapp3.1\OPP.csprojAssemblyReference.cache
