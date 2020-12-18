@@ -49,13 +49,13 @@ namespace OPP
 
         private static HttpClient client = new HttpClient();
 
-        public Game()
+        public Game(int mode)
         {
             Terminal.Terminal myTerminal = new Terminal.Terminal();
             myTerminal.Show();
 
             InitializeComponent();
-            FirstPost();
+            FirstPost(mode);
 
             allColors.Add(Color.Red);
             allColors.Add(Color.Blue);
@@ -252,7 +252,7 @@ namespace OPP
                 }
                 else
                 {
-                    map.addFood(new Unit(item.position, item.type));
+                    map.addFood(new Unit(item.position, item.type, item.playerColor));
                 }
             }
 
@@ -287,16 +287,10 @@ namespace OPP
 
             foreach (Unit unit in map.getFood())
             {
-                Color color = Color.Black;
 
-                if(unit.getType() == 2)
-                {
-                    color = Color.MediumAquamarine;
-                }
-                if (unit.getType() == 1)
-                {
-                    color = Color.DarkGreen;
-                }
+                Debug.WriteLine("Food color: " + unit.getColor());
+                Color color = unit.getColor();
+
                 // Make a GraphicsPath and add the circle.
                 GraphicsPath path = new GraphicsPath();
                 path.AddEllipse(0, 0, 10, 10);
@@ -410,22 +404,25 @@ namespace OPP
             unitData.playerSize = playerPictureBox.Size;
             unitData.type = 0;
 
-            string forSending = string.Format("{{ \"position\":\"{0}, {1}\",\"type\":{2},\"playerColor\":\"{3}\",\"playerSize\":\"{4}, {5}\",\"confused\":{6}}}",
-                unitData.position.X, unitData.position.Y.ToString(), unitData.type.ToString(), unitData.playerColor.Name,
-                unitData.playerSize.Width.ToString(), unitData.playerSize.Height.ToString(), isConfused.ToString().ToLower());
-            PostBasicAsync(forSending, new CancellationToken());
+
+            string forSending = string.Format("{{ \"position\":\"{0}, {1}\",\"type\":{2},\"playerColor\":\"{3}\",\"playerSize\":\"{4}, {5}\"}}",
+            unitData.position.X, unitData.position.Y.ToString(), unitData.type.ToString(), unitData.playerColor.Name, unitData.playerSize.Width.ToString(), unitData.playerSize.Height.ToString());
+            PostBasicAsync(forSending, new CancellationToken()).Wait();
+
         }
 
-        void FirstPost()
+        void FirstPost(int mode)
         {
             UnitData unitData = new UnitData();
             unitData.playerColor = Color.White;
             unitData.position = new Point(-9999, -9999);
             unitData.playerSize = new Size(20,20);
             unitData.type = 0;
+            unitData.mode = mode;
 
-            string forSending = string.Format("{{ \"position\":\"{0}, {1}\",\"type\":{2},\"playerColor\":\"{3}\",\"playerSize\":\"{4}, {5}\"}}",
-                unitData.position.X, unitData.position.Y.ToString(), unitData.type.ToString(), unitData.playerColor.Name, unitData.playerSize.Width.ToString(), unitData.playerSize.Height.ToString());
+            string forSending = string.Format("{{ \"position\":\"{0}, {1}\",\"type\":{2},\"playerColor\":\"{3}\",\"playerSize\":\"{4}, {5}\",\"confused\":{6},\"mode\":\"{7}\"}}",
+                unitData.position.X, unitData.position.Y.ToString(), unitData.type.ToString(), unitData.playerColor.Name,
+                unitData.playerSize.Width.ToString(), unitData.playerSize.Height.ToString(), isConfused.ToString().ToLower(), mode);
             PostBasicAsync(forSending, new CancellationToken());
         }
 
