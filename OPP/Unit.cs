@@ -12,6 +12,7 @@ namespace OPP
         int type;
         Color playerColor;
         Size playerSize;
+        public int index;
 
         public Unit(Point position, Color color, Size size)
         {
@@ -21,10 +22,11 @@ namespace OPP
             this.playerSize = size;
         }
 
-        public Unit(Point position, int type)
+        public Unit(Point position, int type, Color color)
         {
             this.position = position;
             this.type = type;
+            this.playerColor = color;
         }
 
         public Point getPosition()
