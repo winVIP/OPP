@@ -148,6 +148,9 @@ namespace OPP
         void sendTriggerRewind()
         {
             string responseString = client.GetStringAsync("https://localhost:44320/api/game/rewind/" + playerPictureBox.BackColor.Name + "/trigger").Result; // Original 44320, jonas 5001
+            string[] XY = responseString.Split(";");
+            Point rewindPos = new Point( int.Parse(XY[0]), int.Parse(XY[1]));
+            playerPictureBox.Location = rewindPos;
             Debug.WriteLine(responseString);
         }
 
@@ -211,7 +214,6 @@ namespace OPP
                         //Task updateFoodTask;
                         //updateFoodTask = updateFood();
                         //updateFoodTask.Wait();
-                        //playerPictureBox.Location = item.position;
                         updateFood();
                     }
                     map.addPlayer(new Unit(item.position, item.playerColor, item.playerSize));
