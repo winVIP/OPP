@@ -17,12 +17,12 @@ using Newtonsoft.Json;
 using System.Diagnostics;
 using OPP.Interfaces;
 using OPP.Behaviors;
+using System.IO;
 
 namespace OPP
 {
     public partial class Game : Form
     {
-        public int i = 0;
         private Random random = new Random();
 
         private Map map = new Map();
@@ -49,13 +49,13 @@ namespace OPP
 
         private static HttpClient client = new HttpClient();
 
-        public Game(int mode)
+        public Game()
         {
             Terminal.Terminal myTerminal = new Terminal.Terminal();
             myTerminal.Show();
 
             InitializeComponent();
-            FirstPost(mode);
+            FirstPost();
 
             allColors.Add(Color.Red);
             allColors.Add(Color.Blue);
@@ -142,15 +142,12 @@ namespace OPP
 
         void sendSetRewind()
         {
-            string responseString = client.GetStringAsync("https://localhost:44320/api/game/rewind/" + playerPictureBox.BackColor.Name + "/set").Result; // Original 44320, jonas 5001
+            string responseString = client.GetStringAsync(CONFIG_CHANGE_THIS.LOCALHOST + "api/game/rewind/" + playerPictureBox.BackColor.Name + "/set").Result; // Original 44320, jonas 5001
             Debug.WriteLine(responseString);
         }
         void sendTriggerRewind()
         {
-            string responseString = client.GetStringAsync("https://localhost:44320/api/game/rewind/" + playerPictureBox.BackColor.Name + "/trigger").Result; // Original 44320, jonas 5001
-            string[] XY = responseString.Split(";");
-            Point rewindPos = new Point( int.Parse(XY[0]), int.Parse(XY[1]));
-            playerPictureBox.Location = rewindPos;
+            string responseString = client.GetStringAsync(CONFIG_CHANGE_THIS.LOCALHOST + "api/game/rewind/" + playerPictureBox.BackColor.Name + "/trigger").Result; // Original 44320, jonas 5001
             Debug.WriteLine(responseString);
         }
 
@@ -193,7 +190,8 @@ namespace OPP
 
         public void getPlayers()
         {
-            string responseString = client.GetStringAsync("https://localhost:44320/api/game/players").Result;
+            Debug.WriteLine("GET TICK");
+            string responseString = client.GetStringAsync(CONFIG_CHANGE_THIS.LOCALHOST + "api/game/players").Result;
 
             map.ClearPlayers();
 
@@ -209,12 +207,11 @@ namespace OPP
                         isConfused = item.confused;
                     }
                     //Checking if we need to get food too
-                    if (item.playerColor == playerColor)
+                    if (item.foodListChanged && item.playerColor == playerColor)
                     {
-                        //Task updateFoodTask;
-                        //updateFoodTask = updateFood();
-                        //updateFoodTask.Wait();
+                        Debug.WriteLine("Need to change food list nibba");
                         updateFood();
+                        Debug.WriteLine("Not WAITINGIN anymore");
                     }
                     map.addPlayer(new Unit(item.position, item.playerColor, item.playerSize));
                 }
@@ -237,7 +234,7 @@ namespace OPP
 
         public async Task getMapAsyncAwait()
         {
-            string responseString = client.GetStringAsync("https://localhost:44320/api/game").Result;
+            string responseString = client.GetStringAsync(CONFIG_CHANGE_THIS.LOCALHOST + "api/game").Result;
 
             List<UnitData> unitData = JsonConvert.DeserializeObject<List<UnitData>>(responseString);
 
@@ -255,7 +252,7 @@ namespace OPP
                 }
                 else
                 {
-                    map.addFood(new Unit(item.position, item.type, item.playerColor));
+                    map.addFood(new Unit(item.position, item.type));
                 }
             }
 
@@ -263,37 +260,58 @@ namespace OPP
             index = allColors.IndexOf(playerColor);
         }
         
-        void updateFood()
+        public async void updateFood()
         {
-            string responseString = client.GetStringAsync("https://localhost:44320/api/game/food").Result;
+            string responseString = await client.GetStringAsync(CONFIG_CHANGE_THIS.LOCALHOST + "api/game/food");
             List<UnitData> unitData = JsonConvert.DeserializeObject<List<UnitData>>(responseString);
 
-            for (int i = 0; i < unitData.Count; i++)
+            Debug.WriteLine(responseString);
+
+            map.ClearFood();
+           
+            foreach (var item in unitData)
             {
-                if(map.getFood()[i].getPosition() != unitData[i].position)
-                {
-                    foreach(Control item in Controls)
-                    {
-                        if (item.Text.Equals(i.ToString()))
-                        {
-                            item.Location = unitData[i].position;
-                        }
-                    }
-                    map.getFood()[i].setPosition(unitData[i].position);
-                }
+                map.addFood(new Unit(item.position, item.type));
             }
+
+            updateFoodinForm();
 
         }
 
         void updateFoodinForm()
         {
 
-            foreach (Unit unit in map.getFood())
+            foreach (Control item in Controls)
             {
 
-                Debug.WriteLine("Food color: " + unit.getColor());
-                Color color = unit.getColor();
+                //Galima suteikti foodui text, pagal kurį išeitų atnaujint po vieną.
+                item.Text = "1";
+                if (!allColors.Contains(item.BackColor))
+                {
+                    Controls.Remove(item);
+                }
+            }
 
+            foreach (Unit unit in map.getFood())
+            {
+                Color color = Color.Black;
+
+                if(unit.getType() == 2)
+                {
+                    color = Color.MediumAquamarine;
+                }
+                if (unit.getType() == 1)
+                {
+                    color = Color.DarkGreen;
+                }
+                if (unit.getType() == 3)
+                {
+                    color = Color.AliceBlue;
+                }
+                if (unit.getType() == 4)
+                {
+                    color = Color.Red;
+                }
                 // Make a GraphicsPath and add the circle.
                 GraphicsPath path = new GraphicsPath();
                 path.AddEllipse(0, 0, 10, 10);
@@ -306,7 +324,6 @@ namespace OPP
                 pictureBox.Region = region;
                 pictureBox.Size = new Size(10, 10);
                 pictureBox.Location = unit.getPosition();
-                pictureBox.Text = unit.index.ToString();
                 this.Controls.Add(pictureBox);
             }
         }
@@ -407,67 +424,43 @@ namespace OPP
             unitData.playerSize = playerPictureBox.Size;
             unitData.type = 0;
 
-
-            string forSending = string.Format("{{ \"position\":\"{0}, {1}\",\"type\":{2},\"playerColor\":\"{3}\",\"playerSize\":\"{4}, {5}\"}}",
-            unitData.position.X, unitData.position.Y.ToString(), unitData.type.ToString(), unitData.playerColor.Name, unitData.playerSize.Width.ToString(), unitData.playerSize.Height.ToString());
-            PostBasicAsync(forSending, new CancellationToken()).Wait();
-
+            string forSending = string.Format("{{ \"position\":\"{0}, {1}\",\"type\":{2},\"playerColor\":\"{3}\",\"playerSize\":\"{4}, {5}\",\"confused\":{6}}}",
+                unitData.position.X, unitData.position.Y.ToString(), unitData.type.ToString(), unitData.playerColor.Name,
+                unitData.playerSize.Width.ToString(), unitData.playerSize.Height.ToString(), isConfused.ToString().ToLower());
+            PostBasicAsync(forSending, new CancellationToken());
         }
 
-        void FirstPost(int mode)
+        void FirstPost()
         {
             UnitData unitData = new UnitData();
             unitData.playerColor = Color.White;
             unitData.position = new Point(-9999, -9999);
             unitData.playerSize = new Size(20,20);
             unitData.type = 0;
-            unitData.mode = mode;
 
-            string forSending = string.Format("{{ \"position\":\"{0}, {1}\",\"type\":{2},\"playerColor\":\"{3}\",\"playerSize\":\"{4}, {5}\",\"confused\":{6},\"mode\":\"{7}\"}}",
-                unitData.position.X, unitData.position.Y.ToString(), unitData.type.ToString(), unitData.playerColor.Name,
-                unitData.playerSize.Width.ToString(), unitData.playerSize.Height.ToString(), isConfused.ToString().ToLower(), mode);
-            PostBasicAsync(forSending, new CancellationToken());
+            string forSending = string.Format("{{ \"position\":\"{0}, {1}\",\"type\":{2},\"playerColor\":\"{3}\",\"playerSize\":\"{4}, {5}\"}}",
+                unitData.position.X, unitData.position.Y.ToString(), unitData.type.ToString(), unitData.playerColor.Name, unitData.playerSize.Width.ToString(), unitData.playerSize.Height.ToString());
+            PostBasicAsync(forSending, new CancellationToken()).Wait();
         }
 
-        private static async Task PostBasicAsync(object content1, CancellationToken cancellationToken)
+        private static async Task PostBasicAsync(object content, CancellationToken cancellationToken)
         {
-            string tokenURL = @"https://localhost:44320/api/game";
-
-            HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri(tokenURL);
-
-            client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-
-            HttpContent content = new StringContent(JsonConvert.SerializeObject(content1), Encoding.UTF8, "application/json");
-
-            HttpResponseMessage response = client.PostAsync("", content).Result;
-            if (response.IsSuccessStatusCode)
+            using (var client = new HttpClient())
+            using (var request = new HttpRequestMessage(HttpMethod.Post, CONFIG_CHANGE_THIS.LOCALHOST + "api/game"))
             {
+                var json = JsonConvert.SerializeObject(content);
+                using (var stringContent = new StringContent(json, Encoding.UTF8, "application/json"))
+                {
+                    request.Content = stringContent;
 
+                    using (var response = await client
+                        .SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken)
+                        .ConfigureAwait(false))
+                    {
+                        response.EnsureSuccessStatusCode();
+                    }
+                }
             }
-            else
-            {
-                Debug.WriteLine("Nepavyko");
-                Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
-            }
-
-            client.Dispose();
-            //using (var client = new HttpClient())
-            //using (var request = new HttpRequestMessage(HttpMethod.Post, "https://localhost:44320/api/game"))
-            //{
-            //    var json = JsonConvert.SerializeObject(content);
-            //    using (var stringContent = new StringContent(json, Encoding.UTF8, "application/json"))
-            //    {
-            //        request.Content = stringContent;
-
-            //        using (var response = await client
-            //            .SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken)
-            //            .ConfigureAwait(false))
-            //        {
-            //            response.EnsureSuccessStatusCode();
-            //        }
-            //    }
-            //}
         }
     }
 }

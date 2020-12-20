@@ -17,17 +17,7 @@ namespace OPP
 
         private void button1_Click(object sender, EventArgs e)
         {
-            var frm = new Game(1);
-            frm.Location = this.Location;
-            frm.StartPosition = FormStartPosition.Manual;
-            frm.FormClosing += delegate { this.Show(); };
-            frm.Show();
-            this.Hide();
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            var frm = new Game(2);
+            var frm = new Game();
             frm.Location = this.Location;
             frm.StartPosition = FormStartPosition.Manual;
             frm.FormClosing += delegate { this.Show(); };
