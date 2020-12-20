@@ -7,9 +7,14 @@ namespace OPP
 {
     public class Map
     {
+        public int i = 0;
+
         List<Unit> players;
 
         List<Unit> food;
+
+        public List<Unit> newFood = new List<Unit>();
+
 
         public Map()
         {
@@ -49,6 +54,8 @@ namespace OPP
 
         public void addFood(Unit food)
         {
+            food.index = i;
+            i++;
             this.food.Add(food);
         }
         public void addPlayer(Unit player)
