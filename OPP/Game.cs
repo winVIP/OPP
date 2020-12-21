@@ -15,6 +15,10 @@ using System.Net.Http;
 using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 using System.Diagnostics;
+using System.Globalization;
+using System.Net;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
 using OPP.Interfaces;
 using OPP.Behaviors;
 
@@ -22,6 +26,8 @@ namespace OPP
 {
     public partial class Game : Form
     {
+        public static string hostip = "https://85.206.189.49:44320";
+
         public int i = 0;
         private Random random = new Random();
 
@@ -47,10 +53,20 @@ namespace OPP
         private bool isConfused = false;
         private bool confusionChecked = false;
 
-        private static HttpClient client = new HttpClient();
+        private static HttpClient client;
 
         public Game(int mode)
         {
+            var handler = new HttpClientHandler();
+            handler.ClientCertificateOptions = ClientCertificateOption.Manual;
+            handler.ServerCertificateCustomValidationCallback =
+                (httpRequestMessage, cert, cetChain, policyErrors) =>
+                {
+                    return true;
+                };
+
+            client = new HttpClient(handler);
+
             Terminal.Terminal myTerminal = new Terminal.Terminal();
             myTerminal.Show();
 
@@ -145,12 +161,12 @@ namespace OPP
 
         void sendSetRewind()
         {
-            string responseString = client.GetStringAsync("https://localhost:44320/api/game/rewind/" + playerPictureBox.BackColor.Name + "/set").Result; // Original 44320, jonas 5001
+            string responseString = client.GetStringAsync(hostip + "/api/game/rewind/" + playerPictureBox.BackColor.Name + "/set").Result; // Original 44320, jonas 5001
             Debug.WriteLine(responseString);
         }
         void sendTriggerRewind()
         {
-            string responseString = client.GetStringAsync("https://localhost:44320/api/game/rewind/" + playerPictureBox.BackColor.Name + "/trigger").Result; // Original 44320, jonas 5001
+            string responseString = client.GetStringAsync(hostip + "/api/game/rewind/" + playerPictureBox.BackColor.Name + "/trigger").Result; // Original 44320, jonas 5001
             string[] XY = responseString.Split(";");
             Point rewindPos = new Point( int.Parse(XY[0]), int.Parse(XY[1]));
             playerPictureBox.Location = rewindPos;
@@ -196,7 +212,7 @@ namespace OPP
 
         public void getPlayers()
         {
-            string responseString = client.GetStringAsync("https://localhost:44320/api/game/players").Result;
+            string responseString = client.GetStringAsync(hostip + "/api/game/players").Result;
 
             map.ClearPlayers();
 
@@ -240,7 +256,7 @@ namespace OPP
 
         public async Task getMapAsyncAwait()
         {
-            string responseString = client.GetStringAsync("https://localhost:44320/api/game").Result;
+            string responseString = client.GetStringAsync(hostip + "/api/game").Result;
 
             List<UnitData> unitData = JsonConvert.DeserializeObject<List<UnitData>>(responseString);
 
@@ -268,7 +284,7 @@ namespace OPP
         
         void updateFood()
         {
-            string responseString = client.GetStringAsync("https://localhost:44320/api/game/food").Result;
+            string responseString = client.GetStringAsync(hostip + "/api/game/food").Result;
             List<UnitData> unitData = JsonConvert.DeserializeObject<List<UnitData>>(responseString);
 
             for (int i = 0; i < unitData.Count; i++)
@@ -482,16 +498,24 @@ namespace OPP
 
         private static async Task PostBasicAsync(object content1, CancellationToken cancellationToken)
         {
-            string tokenURL = @"https://localhost:44320/api/game";
+            string tokenURL = hostip + "/api/game";
 
-            HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri(tokenURL);
+            var handler = new HttpClientHandler();
+            handler.ClientCertificateOptions = ClientCertificateOption.Manual;
+            handler.ServerCertificateCustomValidationCallback =
+                (httpRequestMessage, cert, cetChain, policyErrors) =>
+                {
+                    return true;
+                };
 
-            client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+            HttpClient client2 = new HttpClient(handler);
+            client2.BaseAddress = new Uri(tokenURL);
+
+            client2.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
             HttpContent content = new StringContent(JsonConvert.SerializeObject(content1), Encoding.UTF8, "application/json");
 
-            HttpResponseMessage response = client.PostAsync("", content).Result;
+            HttpResponseMessage response = client2.PostAsync("", content).Result;
             if (response.IsSuccessStatusCode)
             {
 
@@ -502,7 +526,7 @@ namespace OPP
                 Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
             }
 
-            client.Dispose();
+            client2.Dispose();
             //using (var client = new HttpClient())
             //using (var request = new HttpRequestMessage(HttpMethod.Post, "https://localhost:44320/api/game"))
             //{
