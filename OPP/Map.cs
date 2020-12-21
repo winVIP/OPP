@@ -13,6 +13,8 @@ namespace OPP
 
         List<Unit> food;
 
+        Generator generator;
+
         public List<Unit> newFood = new List<Unit>();
 
 
@@ -37,6 +39,14 @@ namespace OPP
         public List<Unit> getFood()
         {
             return food;
+        }
+        public Generator getGenerator()
+        {
+            return generator;
+        }
+        public void setGenerator(Generator a)
+        {
+            this.generator = a;
         }
         public List<Unit> getPlayers()
         {

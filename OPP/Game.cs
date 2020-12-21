@@ -54,6 +54,8 @@ namespace OPP
             Terminal.Terminal myTerminal = new Terminal.Terminal();
             myTerminal.Show();
 
+            
+
             InitializeComponent();
             FirstPost(mode);
 
@@ -73,11 +75,12 @@ namespace OPP
             playerPictureBox = drawPlayer();
             timer1.Enabled = true;
             timer2.Enabled = true;
+            timer3.Enabled = true;
             POSTplayerPosition.Enabled = true;
             Size mapSize = new Size(5700, 3000);
             Point nullPoint = new Point(0, 0);
             //this.Bounds = new Rectangle(nullPoint, mapSize);
-
+            updateGenerator();
         }
 
         public PictureBox drawPlayer()
@@ -279,11 +282,53 @@ namespace OPP
                             item.Location = unitData[i].position;
                         }
                     }
-                    map.getFood()[i].setPosition(unitData[i].position);
+                    //map.getFood()[i].setPosition(unitData[i].position);
+                    map.setFood(i, new Unit(unitData[i].position, unitData[i].type, unitData[i].playerColor));
                 }
             }
 
         }
+
+        public void updateGenerator()
+        {
+            string responseString = client.GetStringAsync("https://localhost:44320/api/game/generator").Result;
+            Generator generator = JsonConvert.DeserializeObject<Generator>(responseString);
+            Console.WriteLine(generator);
+            Debug.WriteLine("Generator: " + generator.color.Name + generator.position.X.ToString());
+            map.setGenerator(generator);
+            foreach (Control item in Controls)
+            {
+                if (item.Text == "boi")
+                {
+                    Controls.Remove(item);
+                }
+            }
+            updateGeneratorsinForm();
+        }
+
+        void updateGeneratorsinForm()
+        {
+            var gen = map.getGenerator();
+
+            // Make a GraphicsPath and add the circle.
+            GraphicsPath path = new GraphicsPath();
+            Rectangle rect = new Rectangle(0,0,130,130);
+            path.AddRectangle(rect);
+
+
+            // Convert the GraphicsPath into a Region.
+            Region region = new Region(path);
+
+            PictureBox pictureBox = new PictureBox();
+            pictureBox.BackColor = gen.color;
+            pictureBox.Region = region;
+            pictureBox.Size = new Size(80, 80);
+            pictureBox.Location = gen.position;
+            pictureBox.Text = "boi";
+            this.Controls.Add(pictureBox);
+            Debug.WriteLine("Generator X: " + gen.color.Name + gen.position.X.ToString());
+        }
+
 
         void updateFoodinForm()
         {
@@ -349,13 +394,19 @@ namespace OPP
             getPlayers();
         }
 
+        private void timer3_Tick(object sender, EventArgs e)
+        {
+            //Generators are always moving therefore need to be updated constantly, unlike food.
+            updateGenerator();
+        }
+
         private void updatePlayers()
         {
             //Clearing players from form before adding again
 
             foreach(Control item in Controls)
             {
-                if(item.BackColor != playerColor && allColors.Contains(item.BackColor))
+                if(item.BackColor != playerColor && allColors.Contains(item.BackColor) && item.Text != "boi")
                 {
                     Debug.WriteLine("I just removed an item of this " + item.BackColor + " color!");
                     Controls.Remove(item);
