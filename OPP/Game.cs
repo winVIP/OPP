@@ -21,12 +21,16 @@ using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using OPP.Interfaces;
 using OPP.Behaviors;
+using OPP.Sound;
 
 namespace OPP
 {
     public partial class Game : Form
     {
-        public static string hostip = "https://85.206.189.49:44320";
+        //public static string hostip = "https://85.206.189.49:44320";
+        public static string hostip = "https://localhost:44320";
+
+        private SoundMachine soundMachine = new SoundMachine();
 
         public int i = 0;
         private Random random = new Random();
@@ -227,6 +231,26 @@ namespace OPP
                     {
                         isConfused = item.confused;
                     }
+                    if (playerColor == item.playerColor && item.confused == true)
+                    {
+                        soundMachine.PlaySound("Confused.wav");
+                        item.confused = false;
+                    }
+                    if (playerColor == item.playerColor && item.eatenNormal == true)
+                    {
+                        soundMachine.PlaySound("Normal.wav");
+                        item.eatenNormal = false;
+                    }
+                    if (playerColor == item.playerColor && item.sizingDown == true)
+                    {
+                        soundMachine.PlaySound("SizeDown.wav");
+                        item.sizingDown = false;
+                    }
+                    if (playerColor == item.playerColor && item.sizingUp == true)
+                    {
+                        soundMachine.PlaySound("SizeUp.wav");
+                        item.sizingUp = false;
+                    }
                     //Checking if we need to get food too
                     if (item.playerColor == playerColor)
                     {
@@ -307,7 +331,7 @@ namespace OPP
 
         public void updateGenerator()
         {
-            string responseString = client.GetStringAsync("https://localhost:44320/api/game/generator").Result;
+            string responseString = client.GetStringAsync(hostip + "/api/game/generator").Result;
             Generator generator = JsonConvert.DeserializeObject<Generator>(responseString);
             Console.WriteLine(generator);
             Debug.WriteLine("Generator: " + generator.color.Name + generator.position.X.ToString());
