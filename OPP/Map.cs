@@ -15,6 +15,10 @@ namespace OPP
 
         Generator generator;
 
+        Cross cross;
+
+        Circle circle;
+
         public List<Unit> newFood = new List<Unit>();
 
 
@@ -44,9 +48,27 @@ namespace OPP
         {
             return generator;
         }
+
+        public Circle getCircle()
+        {
+            return circle;
+        }
+
+        public Cross getCross()
+        {
+            return cross;
+        }
         public void setGenerator(Generator a)
         {
             this.generator = a;
+        }
+        public void setCross(Cross a)
+        {
+            this.cross = a;
+        }
+        public void setCircle(Circle a)
+        {
+            this.circle = a;
         }
         public List<Unit> getPlayers()
         {

@@ -96,6 +96,8 @@ namespace OPP
             timer1.Enabled = true;
             timer2.Enabled = true;
             timer3.Enabled = true;
+            timer4.Enabled = true;
+            timer5.Enabled = true;
             POSTplayerPosition.Enabled = true;
             Size mapSize = new Size(5700, 3000);
             Point nullPoint = new Point(0, 0);
@@ -338,7 +340,7 @@ namespace OPP
             map.setGenerator(generator);
             foreach (Control item in Controls)
             {
-                if (item.Text == "boi")
+                if (item.Text == "generator")
                 {
                     Controls.Remove(item);
                 }
@@ -346,25 +348,94 @@ namespace OPP
             updateGeneratorsinForm();
         }
 
+        public void updateCross()
+        {
+            string responseString2 = client.GetStringAsync(hostip + "/api/game/cross").Result;
+            Cross cross = JsonConvert.DeserializeObject<Cross>(responseString2);
+            map.setCross(cross);
+            foreach (Control item in Controls)
+            {
+                if (item.Text == "cross")
+                {
+                    Controls.Remove(item);
+                }
+            }
+            updateCrossinForm();
+        }
+
+        public void updateCircle()
+        {
+            string responseString3 = client.GetStringAsync(hostip + "/api/game/circle").Result;
+            Circle circle = JsonConvert.DeserializeObject<Circle>(responseString3);
+            map.setCircle(circle);
+            foreach (Control item in Controls)
+            {
+                if (item.Text == "circle")
+                {
+                    Controls.Remove(item);
+                }
+            }
+            updateCircleinForm();
+        }
+
+        void updateCrossinForm()
+        {
+            var cross = map.getCross();
+
+            var path = new GraphicsPath();
+            Rectangle rect1 = new Rectangle(50, 0, 30, 130);
+            Rectangle rect2 = new Rectangle(0, 50, 130, 30);
+            Rectangle[] arr = new Rectangle[2];
+            arr[0] = rect1;
+            arr[1] = rect2;
+            path.AddRectangles(arr);
+            //path.AddRectangle(rect2);
+            path.FillMode = FillMode.Winding;
+            // Convert the GraphicsPath into a Region.
+            var region = new Region(path);
+            var pictureBox = new PictureBox();
+            pictureBox.BackColor = cross.color;
+            pictureBox.Region = region;
+            pictureBox.Size = new Size(130, 130);
+            pictureBox.Location = cross.position;
+            pictureBox.Text = "cross";
+            this.Controls.Add(pictureBox);
+            Debug.WriteLine("Cross X: " + cross.color.Name + cross.position.X.ToString());
+
+        }
+
+        void updateCircleinForm()
+        {
+            var circle = map.getCircle();
+            var path = new GraphicsPath();
+            path.AddEllipse(0, 0, 120, 120);
+            // Convert the GraphicsPath into a Region.
+            var region = new Region(path);
+            var pictureBox = new PictureBox();
+            pictureBox.BackColor = circle.color;
+            pictureBox.Region = region;
+            pictureBox.Size = new Size(130, 130);
+            pictureBox.Location = circle.position;
+            pictureBox.Text = "circle";
+            this.Controls.Add(pictureBox);
+            Debug.WriteLine("Circle X: " + circle.color.Name + circle.position.X.ToString());
+        }
+
         void updateGeneratorsinForm()
         {
             var gen = map.getGenerator();
-
             // Make a GraphicsPath and add the circle.
             GraphicsPath path = new GraphicsPath();
             Rectangle rect = new Rectangle(0,0,130,130);
             path.AddRectangle(rect);
-
-
             // Convert the GraphicsPath into a Region.
             Region region = new Region(path);
-
             PictureBox pictureBox = new PictureBox();
             pictureBox.BackColor = gen.color;
             pictureBox.Region = region;
             pictureBox.Size = new Size(80, 80);
             pictureBox.Location = gen.position;
-            pictureBox.Text = "boi";
+            pictureBox.Text = "generator";
             this.Controls.Add(pictureBox);
             Debug.WriteLine("Generator X: " + gen.color.Name + gen.position.X.ToString());
         }
@@ -440,13 +511,25 @@ namespace OPP
             updateGenerator();
         }
 
+        private void timer4_Tick(object sender, EventArgs e)
+        {
+            //Generators are always moving therefore need to be updated constantly, unlike food.
+            updateCircle();
+        }
+
+        private void timer5_Tick(object sender, EventArgs e)
+        {
+            //Generators are always moving therefore need to be updated constantly, unlike food.
+            updateCross();
+        }
+
         private void updatePlayers()
         {
             //Clearing players from form before adding again
 
             foreach(Control item in Controls)
             {
-                if(item.BackColor != playerColor && allColors.Contains(item.BackColor) && item.Text != "boi")
+                if(item.BackColor != playerColor && allColors.Contains(item.BackColor) && item.Text != "DONT-REMOVE" && item.Text != "generator" && item.Text != "circle" && item.Text != "cross")
                 {
                     Debug.WriteLine("I just removed an item of this " + item.BackColor + " color!");
                     Controls.Remove(item);
